@@ -463,8 +463,78 @@ async function clearAllData() {
     }
 }
 
+/**
+ * Initialize data files in GitHub if they don't exist
+ */
+async function ensureDataFilesExist() {
+    console.log('🔍 Checking if data files exist in GitHub...');
+
+    try {
+        const githubData = await loadAllFromGitHub();
+
+        // Check if we need to create any files
+        let needsInitialization = false;
+
+        if (!githubData.production || githubData.production.length === 0) {
+            console.log('📝 Initializing production data...');
+            await saveFileToGitHub(DATA_FILES.production, [], 'Initialize production data');
+            needsInitialization = true;
+        }
+
+        if (!githubData.transactions || githubData.transactions.length === 0) {
+            console.log('📝 Initializing transactions data...');
+            await saveFileToGitHub(DATA_FILES.transactions, [], 'Initialize transactions data');
+            needsInitialization = true;
+        }
+
+        if (!githubData.sales || githubData.sales.length === 0) {
+            console.log('📝 Initializing sales data...');
+            await saveFileToGitHub(DATA_FILES.sales, [], 'Initialize sales data');
+            needsInitialization = true;
+        }
+
+        if (!githubData.config || !githubData.config.laborRate) {
+            console.log('📝 Initializing config...');
+            await saveFileToGitHub(DATA_FILES.config, DEFAULT_CONFIG, 'Initialize config');
+            needsInitialization = true;
+        }
+
+        if (needsInitialization) {
+            console.log('✅ Data files initialized in GitHub');
+        } else {
+            console.log('✅ Data files already exist in GitHub');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('❌ Error ensuring data files exist:', error);
+
+        // If files don't exist at all (404), create them
+        if (error.message && error.message.includes('404')) {
+            console.log('📁 Creating initial data structure in GitHub...');
+            try {
+                await saveFileToGitHub(DATA_FILES.config, DEFAULT_CONFIG, 'Initial setup: config');
+                await saveFileToGitHub(DATA_FILES.production, [], 'Initial setup: production');
+                await saveFileToGitHub(DATA_FILES.transactions, [], 'Initial setup: transactions');
+                await saveFileToGitHub(DATA_FILES.sales, [], 'Initial setup: sales');
+                console.log('✅ Initial data structure created in GitHub');
+                return true;
+            } catch (initError) {
+                console.error('❌ Error creating initial data structure:', initError);
+                return false;
+            }
+        }
+
+        return false;
+    }
+}
+
 // Initialize on load (called by app.js after authentication)
 async function initializeDataOnLoad() {
+    // First ensure data files exist in GitHub
+    await ensureDataFilesExist();
+
+    // Then load the data
     await initializeData();
     await initializeConfig();
 }
