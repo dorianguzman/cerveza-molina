@@ -31,6 +31,11 @@ function updateOnlineStatus() {
 function updateLastSyncDisplay() {
     const syncText = document.getElementById('last-sync-text');
 
+    if (!syncText) {
+        console.warn('⚠️ last-sync-text element not found');
+        return;
+    }
+
     if (!lastSyncTime) {
         syncText.textContent = 'No sincronizado';
         return;
@@ -61,7 +66,9 @@ function updateLastSyncDisplay() {
  */
 function setSyncing() {
     const syncStatus = document.getElementById('sync-status');
-    syncStatus.classList.add('syncing');
+    if (syncStatus) {
+        syncStatus.classList.add('syncing');
+    }
 }
 
 /**
@@ -69,9 +76,12 @@ function setSyncing() {
  */
 function setSyncComplete() {
     const syncStatus = document.getElementById('sync-status');
-    syncStatus.classList.remove('syncing');
+    if (syncStatus) {
+        syncStatus.classList.remove('syncing');
+    }
     lastSyncTime = new Date();
     updateLastSyncDisplay();
+    console.log('✅ Sync complete at:', lastSyncTime.toLocaleTimeString());
 }
 
 /**
@@ -255,16 +265,27 @@ function showMenuGroup(group) {
 }
 
 function showSection(sectionId) {
+    console.log('🔄 Switching to section:', sectionId);
+
     // Hide all sections
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
 
     // Show the target section
-    document.getElementById(sectionId).classList.add('active');
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        console.log('✅ Section shown:', sectionId);
+    } else {
+        console.error('❌ Section not found:', sectionId);
+    }
 
-    // Show back button
-    document.getElementById('back-btn').style.display = 'inline-flex';
+    // Show back button if it exists
+    const backBtn = document.getElementById('back-btn');
+    if (backBtn) {
+        backBtn.style.display = 'inline-flex';
+    }
 
     // If navigating to dashboard, update it
     if (sectionId === 'dashboard') {
