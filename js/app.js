@@ -747,7 +747,13 @@ function escapeHtml(text) {
 // INITIALIZATION
 // ====================
 
-document.addEventListener('DOMContentLoaded', async function() {
+/**
+ * Initialize the main application
+ * Called by auth.js after successful authentication
+ */
+async function initializeApp() {
+    console.log('🚀 Initializing Molina App...');
+
     // Initialize all modules
     initializeNavigation();
     initializeProductionForm();
@@ -767,4 +773,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Initialize dashboard
     initializeYearFilters();
     updateDashboard();
+
+    console.log('✅ Molina App initialized successfully');
+}
+
+// DOM Content Loaded is handled by auth.js
+// App will only initialize after successful authentication
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 DOM loaded, waiting for authentication...');
+    // Auth system will call initializeApp() after successful login
 });

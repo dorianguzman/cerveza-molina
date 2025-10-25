@@ -14,9 +14,9 @@
 
 ---
 
-## ¿Qué es Molina?
+## ¿Qué es Molina app?
 
-Una aplicación web completa para el control de producción, finanzas y cálculo del **Costo Por Chela (CPC)** de tu cervecería artesanal. 100% gratuita, sin servidor, funciona en tu navegador.
+Una aplicación web completa para el control de producción, finanzas y cálculo del **Costo Por Chela (CPC)** de tu cervecería artesanal.
 
 ### Características Principales
 
@@ -119,9 +119,8 @@ El sistema calcula automáticamente y recomienda precios con margen configurable
 ## 📄 Licencia
 
 **Propietario:** Molina Cerveza Artesanal
-**Desarrollado con:** Claude Code by Anthropic
 **Versión:** 1.0 MVP
 
 ---
 
-**🍺 ¡Salud! Hecho con ❤️ para la comunidad cervecera artesanal mexicana**
+**🍺 ¡Salud! Hecho con ❤️ para Cerveza Artesanal Molina**

@@ -1,13 +1,11 @@
 /*
  * GITHUB-SYNC.JS - GitHub API Integration
  * Handles syncing data to/from GitHub repository
+ * Uses authentication from auth.js (getGitHubPAT and getGitHubRepo)
  */
 
 // GitHub configuration
-const GITHUB_OWNER = 'dorianguzman';
-const GITHUB_REPO = 'cerveza-molina';
 const GITHUB_BRANCH = 'main';
-const GITHUB_PAT_KEY = 'molina_github_pat';
 
 // File paths in repository
 const DATA_FILES = {
@@ -18,17 +16,24 @@ const DATA_FILES = {
 };
 
 /**
- * Get stored GitHub Personal Access Token
+ * Get GitHub repository owner and name
+ * @returns {Object} {owner, repo} or null if not configured
  */
-function getGitHubToken() {
-    return localStorage.getItem(GITHUB_PAT_KEY);
+function getGitHubRepoInfo() {
+    const repoString = getGitHubRepo(); // From auth.js
+    if (!repoString || !repoString.includes('/')) {
+        return null;
+    }
+    const [owner, repo] = repoString.split('/');
+    return { owner, repo };
 }
 
 /**
- * Save GitHub Personal Access Token
+ * Get stored GitHub Personal Access Token
+ * Uses auth.js getGitHubPAT() function
  */
-function setGitHubToken(token) {
-    localStorage.setItem(GITHUB_PAT_KEY, token);
+function getGitHubToken() {
+    return getGitHubPAT(); // From auth.js
 }
 
 /**
@@ -36,7 +41,8 @@ function setGitHubToken(token) {
  */
 function isGitHubConfigured() {
     const token = getGitHubToken();
-    return token && token.length > 0;
+    const repoInfo = getGitHubRepoInfo();
+    return token && token.length > 0 && repoInfo !== null;
 }
 
 /**
@@ -50,7 +56,12 @@ async function loadFileFromGitHub(path) {
         throw new Error('GitHub token not configured');
     }
 
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${GITHUB_BRANCH}`;
+    const repoInfo = getGitHubRepoInfo();
+    if (!repoInfo) {
+        throw new Error('GitHub repository not configured');
+    }
+
+    const url = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${GITHUB_BRANCH}`;
 
     try {
         const response = await fetch(url, {
@@ -92,7 +103,12 @@ async function saveFileToGitHub(path, content, message = 'Update data') {
         throw new Error('GitHub token not configured');
     }
 
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`;
+    const repoInfo = getGitHubRepoInfo();
+    if (!repoInfo) {
+        throw new Error('GitHub repository not configured');
+    }
+
+    const url = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`;
 
     try {
         // First, get the current file SHA (required for updates)

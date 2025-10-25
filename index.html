@@ -21,11 +21,19 @@
     <!-- Header -->
     <header class="header">
         <div class="container header-content">
-            <img src="assets/logo-molina.png" alt="Molina Cerveza Artesanal" class="logo-img">
-            <div>
+            <img src="assets/small_logo.jpg" alt="Molina Cerveza Artesanal" class="logo-img">
+            <div style="flex: 1;">
                 <h1 class="logo">Molina - Cerveza Artesanal</h1>
                 <p class="subtitle">Registro de Cervecería</p>
             </div>
+            <button onclick="logout()" class="logout-btn" title="Cerrar sesión">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                <span>Cerrar Sesión</span>
+            </button>
         </div>
     </header>
 
@@ -128,107 +136,107 @@
         </section>
 
         <!-- Reportes Group Section -->
-        <section id="reportes-menu" class="section submenu-section">
+        <section id="reportes-menu" class="section">
             <h2>Reportes</h2>
-            <div class="submenu-grid">
-                <div class="submenu-card" data-section="dashboard">
-                    <div class="submenu-icon">
+            <div class="menu-grid">
+                <div class="menu-card submenu-card" data-section="dashboard">
+                    <div class="menu-card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="3" width="18" height="18" rx="2"/>
                             <path d="M3 9h18"/>
                             <path d="M9 21V9"/>
                         </svg>
                     </div>
-                    <div class="submenu-card-content">
+                    <div class="menu-card-content">
                         <h3>Tablero</h3>
                         <p>KPIs y gráficas del negocio</p>
                     </div>
-                    <div class="submenu-card-arrow">→</div>
+                    <div class="menu-card-arrow">→</div>
                 </div>
-                <div class="submenu-card" data-section="reports">
-                    <div class="submenu-icon">
+                <div class="menu-card submenu-card" data-section="reports">
+                    <div class="menu-card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                             <path d="M14 2v6h6"/>
                         </svg>
                     </div>
-                    <div class="submenu-card-content">
+                    <div class="menu-card-content">
                         <h3>Estado PyG</h3>
                         <p>Pérdidas y ganancias detallado</p>
                     </div>
-                    <div class="submenu-card-arrow">→</div>
+                    <div class="menu-card-arrow">→</div>
                 </div>
             </div>
         </section>
 
         <!-- Registros Group Section -->
-        <section id="registros-menu" class="section submenu-section">
+        <section id="registros-menu" class="section">
             <h2>Ingresar Registros</h2>
-            <div class="submenu-grid">
-                <div class="submenu-card" data-section="production">
-                    <div class="submenu-icon">
+            <div class="menu-grid">
+                <div class="menu-card submenu-card" data-section="production">
+                    <div class="menu-card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M9 2h6"/>
                             <path d="M9 2v2c0 1.5-1 2-2 2H6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6h-1c-1 0-2-.5-2-2V2"/>
                             <path d="M6 10h12"/>
                         </svg>
                     </div>
-                    <div class="submenu-card-content">
+                    <div class="menu-card-content">
                         <h3>Producción</h3>
                         <p>Lotes de producción</p>
                     </div>
-                    <div class="submenu-card-arrow">→</div>
+                    <div class="menu-card-arrow">→</div>
                 </div>
-                <div class="submenu-card" data-section="transactions">
-                    <div class="submenu-icon">
+                <div class="menu-card submenu-card" data-section="transactions">
+                    <div class="menu-card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 2v20"/>
                             <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                         </svg>
                     </div>
-                    <div class="submenu-card-content">
+                    <div class="menu-card-content">
                         <h3>Transacciones</h3>
                         <p>Ingresos y gastos</p>
                     </div>
-                    <div class="submenu-card-arrow">→</div>
+                    <div class="menu-card-arrow">→</div>
                 </div>
-                <div class="submenu-card" data-section="sales">
-                    <div class="submenu-icon">
+                <div class="menu-card submenu-card" data-section="sales">
+                    <div class="menu-card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="9" cy="21" r="1"/>
                             <circle cx="20" cy="21" r="1"/>
                             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
                         </svg>
                     </div>
-                    <div class="submenu-card-content">
+                    <div class="menu-card-content">
                         <h3>Ventas</h3>
                         <p>Registro de ventas</p>
                     </div>
-                    <div class="submenu-card-arrow">→</div>
+                    <div class="menu-card-arrow">→</div>
                 </div>
             </div>
         </section>
 
         <!-- Ajustes Group Section -->
-        <section id="ajustes-menu" class="section submenu-section">
+        <section id="ajustes-menu" class="section">
             <h2>Ajustes</h2>
-            <div class="submenu-grid">
-                <div class="submenu-card" data-section="data">
-                    <div class="submenu-icon">
+            <div class="menu-grid">
+                <div class="menu-card submenu-card" data-section="data">
+                    <div class="menu-card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <ellipse cx="12" cy="5" rx="9" ry="3"/>
                             <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
                             <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
                         </svg>
                     </div>
-                    <div class="submenu-card-content">
+                    <div class="menu-card-content">
                         <h3>Datos</h3>
                         <p>Importar, exportar y gestionar</p>
                     </div>
-                    <div class="submenu-card-arrow">→</div>
+                    <div class="menu-card-arrow">→</div>
                 </div>
-                <div class="submenu-card" data-section="config">
-                    <div class="submenu-icon">
+                <div class="menu-card submenu-card" data-section="config">
+                    <div class="menu-card-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="4" y1="21" x2="4" y2="14"/>
                             <line x1="4" y1="10" x2="4" y2="3"/>
@@ -241,11 +249,11 @@
                             <line x1="17" y1="16" x2="23" y2="16"/>
                         </svg>
                     </div>
-                    <div class="submenu-card-content">
+                    <div class="menu-card-content">
                         <h3>Parámetros</h3>
                         <p>Configuración y sincronización</p>
                     </div>
-                    <div class="submenu-card-arrow">→</div>
+                    <div class="menu-card-arrow">→</div>
                 </div>
             </div>
         </section>
@@ -297,7 +305,7 @@
                     <p class="kpi-value" id="kpi-expenses">$0.00 MXN</p>
                 </div>
                 <div class="card kpi-card">
-                    <h3>Ganancia/Pérdida Neta</h3>
+                    <h3>Ganancia o Pérdida Neta</h3>
                     <p class="kpi-value" id="kpi-profit">$0.00 MXN</p>
                 </div>
                 <div class="card kpi-card">
@@ -306,11 +314,20 @@
                 </div>
             </div>
 
-            <!-- Cost Per Beer Highlight -->
+            <!-- Combined Pricing Card -->
             <div class="card cost-per-beer-card">
-                <h2>Costo Por Chela (CPC)</h2>
-                <p class="cost-per-beer-result" id="cost-per-beer">$0.00 MXN</p>
-                <p class="subtitle">Basado en el periodo seleccionado</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;">
+                    <div style="text-align: center; padding: 1rem; border-right: 2px solid rgba(255,255,255,0.2);">
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Costo Por Chela (CPC)</h2>
+                        <p class="cost-per-beer-result" id="cost-per-beer">$0.00 MXN</p>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Precio Sugerido</h2>
+                        <p class="cost-per-beer-result" id="suggested-price">$0.00 MXN</p>
+                        <p class="subtitle" id="profit-margin-label" style="font-size: 0.85rem; margin-top: 0.5rem;">Con margen de 3x</p>
+                    </div>
+                </div>
+                <p class="subtitle" style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem;">Basado en el periodo seleccionado</p>
             </div>
 
             <!-- Charts -->
@@ -657,7 +674,87 @@
     <!-- Toast Container -->
     <div id="toast-container"></div>
 
+    <!-- Authentication Overlay -->
+    <div id="auth-overlay">
+        <!-- Beer Bubbles Background -->
+        <div class="beer-bubbles">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+
+        <div id="auth-container">
+            <!-- Logo -->
+            <div class="auth-logo">
+                <img src="assets/logo-molina.png" alt="Molina Logo" style="height: 220px; width: auto;">
+            </div>
+
+            <!-- Error Message -->
+            <div id="auth-error" class="auth-error"></div>
+
+            <!-- Step 1: Password -->
+            <div id="auth-step-1" class="auth-step">
+                <h2>🔐 Autenticación Requerida</h2>
+                <p class="auth-description">Ingresa la contraseña para acceder al sistema</p>
+
+                <form id="auth-password-form">
+                    <div class="auth-input-group">
+                        <label for="auth-password">Contraseña</label>
+                        <input type="password" id="auth-password" required autocomplete="current-password" placeholder="Ingresa tu contraseña">
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Continuar</button>
+                </form>
+            </div>
+
+            <!-- Step 2: GitHub PAT -->
+            <div id="auth-step-2" class="auth-step" style="display: none;">
+                <h2>🔗 Configurar GitHub Sync</h2>
+                <p class="auth-description">Esta aplicación requiere sincronización con GitHub para funcionar</p>
+
+                <form id="auth-github-form">
+                    <div class="auth-input-group">
+                        <label for="github-repo">Repositorio de GitHub</label>
+                        <input type="text" id="github-repo" required placeholder="usuario/cerveza-molina" pattern="[^/]+/[^/]+">
+                        <small>Formato: usuario/nombre-repositorio</small>
+                    </div>
+
+                    <div class="auth-input-group">
+                        <label for="github-pat">Personal Access Token (PAT)</label>
+                        <input type="password" id="github-pat" required placeholder="ghp_...">
+                        <small><a href="https://github.com/settings/tokens" target="_blank" style="color: var(--color-amber-gold);">¿Cómo crear un PAT?</a></small>
+                    </div>
+
+                    <button type="submit" class="auth-submit-btn">Conectar con GitHub</button>
+                </form>
+            </div>
+
+            <!-- Info Footer -->
+            <div class="auth-footer">
+                <p>🔒 Todos los datos se almacenan de forma segura en tu repositorio de GitHub</p>
+                <p><a href="SETUP_AUTH.md" target="_blank" style="color: var(--color-amber-gold);">Ver guía de configuración</a></p>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
+    <script src="js/auth.js"></script>
     <script src="js/data.js"></script>
     <script src="js/github-sync.js"></script>
     <script src="js/calculations.js"></script>
