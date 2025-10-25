@@ -29,7 +29,11 @@ function updateOnlineStatus() {
  * Update last sync time display
  */
 function updateLastSyncDisplay() {
+    console.log('🔍 updateLastSyncDisplay called');
     const syncText = document.getElementById('last-sync-text');
+
+    console.log('  - Element found:', !!syncText);
+    console.log('  - lastSyncTime:', lastSyncTime);
 
     if (!syncText) {
         console.warn('⚠️ last-sync-text element not found');
@@ -37,6 +41,7 @@ function updateLastSyncDisplay() {
     }
 
     if (!lastSyncTime) {
+        console.log('  - No lastSyncTime, setting to "No sincronizado"');
         syncText.textContent = 'No sincronizado';
         return;
     }
@@ -47,18 +52,25 @@ function updateLastSyncDisplay() {
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
 
+    console.log('  - Time diff:', { seconds, minutes, hours });
+
+    let newText = '';
     if (seconds < 10) {
-        syncText.textContent = 'Justo ahora';
+        newText = 'Justo ahora';
     } else if (seconds < 60) {
-        syncText.textContent = `Hace ${seconds}s`;
+        newText = `Hace ${seconds}s`;
     } else if (minutes < 60) {
-        syncText.textContent = `Hace ${minutes}m`;
+        newText = `Hace ${minutes}m`;
     } else if (hours < 24) {
-        syncText.textContent = `Hace ${hours}h`;
+        newText = `Hace ${hours}h`;
     } else {
         const days = Math.floor(hours / 24);
-        syncText.textContent = `Hace ${days}d`;
+        newText = `Hace ${days}d`;
     }
+
+    console.log('  - Setting text to:', newText);
+    syncText.textContent = newText;
+    console.log('  - Text is now:', syncText.textContent);
 }
 
 /**
