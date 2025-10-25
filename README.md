@@ -1,6 +1,8 @@
 <div align="center">
 
-[![Molina Logo](assets/small_logo.jpg)](https://dorianguzman.github.io/cerveza-molina/)
+<a href="https://dorianguzman.github.io/cerveza-molina/">
+  <img src="assets/small_logo.jpg" alt="Molina Logo" width="120">
+</a>
 
 # 🍺 Molina - Sistema de Gestión para Cervecería Artesanal
 
