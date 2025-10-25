@@ -228,72 +228,8 @@ main {
     width: 100%;
 }
 
-/* Menu Cards (Home Screen) */
-.menu-card {
-    background: white;
-    border-radius: 12px;
-    padding: 2rem 2.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    border: 2px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    min-height: 120px;
-}
-
-.menu-card:hover {
-    transform: translateX(8px);
-    box-shadow: 0 6px 20px rgba(128, 42, 42, 0.2);
-    border-color: var(--color-molina-red);
-}
-
-.menu-card-icon {
-    width: 70px;
-    height: 70px;
-    flex-shrink: 0;
-    color: var(--color-molina-red);
-}
-
-.menu-card-icon svg {
-    width: 100%;
-    height: 100%;
-}
-
-.menu-card-content {
-    flex: 1;
-    text-align: left;
-}
-
-.menu-card h3 {
-    color: var(--color-molina-red);
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
-}
-
-.menu-card p {
-    color: #666;
-    font-size: 1rem;
-    margin: 0;
-}
-
-.menu-card-arrow {
-    font-size: 2rem;
-    color: var(--color-molina-red);
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.menu-card:hover .menu-card-arrow {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Submenu Cards - Same size as Menu Cards */
+/* Common Card Styles - Applied to both menu and submenu cards */
+.menu-card,
 .submenu-card {
     background: white;
     border-radius: 12px;
@@ -301,20 +237,23 @@ main {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid transparent;
     position: relative;
+    border: 2px solid transparent;
     display: flex;
     align-items: center;
     gap: 2rem;
     min-height: 120px;
+    width: 100%;
 }
 
+.menu-card:hover,
 .submenu-card:hover {
     transform: translateX(8px);
     box-shadow: 0 6px 20px rgba(128, 42, 42, 0.2);
     border-color: var(--color-molina-red);
 }
 
+.menu-card-icon,
 .submenu-icon {
     width: 70px;
     height: 70px;
@@ -322,28 +261,33 @@ main {
     color: var(--color-molina-red);
 }
 
+.menu-card-icon svg,
 .submenu-icon svg {
     width: 100%;
     height: 100%;
 }
 
+.menu-card-content,
 .submenu-card-content {
     flex: 1;
     text-align: left;
 }
 
+.menu-card h3,
 .submenu-card h3 {
     color: var(--color-molina-red);
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
 }
 
+.menu-card p,
 .submenu-card p {
     color: #666;
     font-size: 1rem;
     margin: 0;
 }
 
+.menu-card-arrow,
 .submenu-card-arrow {
     font-size: 2rem;
     color: var(--color-molina-red);
@@ -353,10 +297,13 @@ main {
     flex-shrink: 0;
 }
 
+.menu-card:hover .menu-card-arrow,
 .submenu-card:hover .submenu-card-arrow {
     opacity: 1;
     transform: translateX(0);
 }
+
+/* All submenu-specific styles are now consolidated above */
 
 /* Sections */
 .section {
