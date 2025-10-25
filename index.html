@@ -339,7 +339,7 @@
                     <div style="text-align: center; padding: 1rem;">
                         <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Precio Sugerido</h2>
                         <p class="cost-per-beer-result" id="suggested-price">$0.00 MXN</p>
-                        <p class="subtitle" id="profit-margin-label" style="font-size: 0.85rem; margin-top: 0.5rem;">Con margen de 3x</p>
+                        <p class="subtitle" id="profit-margin-label" style="font-size: 0.85rem; margin-top: 0.5rem;">Con margen de 30%</p>
                     </div>
                 </div>
                 <p class="subtitle" style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem;">Basado en el periodo seleccionado</p>
@@ -640,40 +640,24 @@
                 </form>
             </div>
 
-            <!-- GitHub Sync Card -->
+            <!-- Storage Info Card -->
             <div class="card">
-                <h3>Sincronización con GitHub</h3>
-                <p>Sincronice sus datos con GitHub para acceder desde múltiples dispositivos.</p>
+                <h3>Almacenamiento de Datos</h3>
+                <p style="margin-bottom: 1rem;">Todos tus datos se guardan automáticamente en tu repositorio privado de GitHub.</p>
 
-                <!-- GitHub Token Section -->
-                <div class="form-group" style="margin-top: 1.5rem;">
-                    <label for="github-token">GitHub Personal Access Token:</label>
-                    <input type="password" id="github-token" placeholder="ghp_...">
-                    <small>
-                        <a href="https://github.com/settings/tokens/new?description=Molina%20Sync&scopes=repo" target="_blank">Crear nuevo token</a>
-                        con permisos de "repo"
-                    </small>
+                <div style="padding: 1rem; background: #f5f5f5; border-left: 4px solid var(--color-amber-gold); font-size: 0.9rem; margin-bottom: 1rem;">
+                    <p style="margin-bottom: 0.5rem;"><strong>✓ Guardado automático:</strong> Cada cambio se sincroniza inmediatamente con GitHub</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>✓ Acceso multi-dispositivo:</strong> Accede a tus datos desde cualquier navegador</p>
+                    <p style="margin-bottom: 0;"><strong>✓ Backup seguro:</strong> Tus datos están respaldados en GitHub</p>
                 </div>
 
-                <button type="button" class="primary" onclick="saveGitHubToken()">Guardar Token</button>
+                <p style="font-size: 0.9rem; color: #666;">
+                    <strong>Repositorio configurado:</strong> <span id="configured-repo" style="color: var(--color-amber-gold); font-weight: 600;">-</span>
+                </p>
 
-                <!-- Sync Controls -->
-                <div id="sync-controls" style="margin-top: 2rem; display: none;">
-                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-                        <button type="button" class="primary" onclick="syncToGitHub()">
-                            <span id="sync-btn-text">Sincronizar Ahora</span>
-                        </button>
-                        <span id="sync-status" style="font-size: 0.9rem; color: #666;"></span>
-                    </div>
-
-                    <p style="font-size: 0.9rem; color: #666;">
-                        <strong>Última sincronización:</strong> <span id="last-sync-time">Nunca</span>
-                    </p>
-
-                    <p style="margin-top: 1rem; padding: 1rem; background: #f5f5f5; border-left: 4px solid var(--color-molina-red); font-size: 0.9rem;">
-                        <strong>Nota:</strong> Los datos se guardan automáticamente en localStorage y se pueden sincronizar manualmente con GitHub cuando lo desee.
-                    </p>
-                </div>
+                <p style="margin-top: 1rem; padding: 1rem; background: #fff3cd; border-left: 4px solid #ffc107; font-size: 0.9rem;">
+                    <strong>Nota:</strong> Para cambiar de repositorio, cierra sesión y vuelve a iniciar sesión con las nuevas credenciales.
+                </p>
             </div>
         </section>
 

@@ -578,6 +578,13 @@ function loadConfigValues() {
     // Update read-only view
     document.getElementById('view-labor-rate').textContent = formatCurrency(config.laborRate || 150) + '/hora';
     document.getElementById('view-margin').textContent = (config.profitMarginPercentage || 30) + '%';
+
+    // Update configured repo display
+    const repo = getGitHubRepo();
+    const repoDisplay = document.getElementById('configured-repo');
+    if (repoDisplay && repo) {
+        repoDisplay.textContent = repo;
+    }
 }
 
 // ====================
