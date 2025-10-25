@@ -212,7 +212,7 @@ El dashboard muestra una vista completa de tu negocio con 4 secciones principale
 </tr>
 <tr>
 <td><strong>Chelas Producidas</strong></td>
-<td>Total de pintas producidas</td>
+<td>Total de chelas producidas</td>
 <td>Dorado</td>
 </tr>
 </table>
@@ -228,7 +228,7 @@ El dashboard muestra una vista completa de tu negocio con 4 secciones principale
 ```
 
 **Interpretación:**
-- **CPC:** Cuánto te cuesta producir una pinta
+- **CPC:** Cuánto te cuesta producir una chela
 - **Precio Sugerido:** A cuánto deberías venderla (con 60% de ganancia)
 
 #### 4️⃣ Gráficas Interactivas
@@ -288,7 +288,7 @@ El dashboard muestra una vista completa de tu negocio con 4 secciones principale
 |-------|-------------|---------|
 | **Fecha** | Cuándo se produjo | 2025-10-15 |
 | **Nombre de la Cerveza** | Tipo/estilo | IPA Dorada |
-| **Volumen (pintas)** | Cuántas pintas obtuviste | 50 |
+| **Volumen (chelas)** | Cuántas chelas obtuviste | 50 |
 | **Horas de Trabajo** | Tiempo dedicado | 8 |
 | **Costo de Ingredientes** | Cuánto gastaste en ingredientes | $1,200 MXN |
 
@@ -350,7 +350,7 @@ Verás todos tus lotes registrados con:
 | Aspecto | Transacciones | Ventas |
 |---------|---------------|--------|
 | **Qué son** | Gastos operativos e ingresos varios | Solo ventas de cerveza |
-| **Ejemplos** | Renta, salarios, ingredientes | Venta de pintas/barriles |
+| **Ejemplos** | Renta, salarios, ingredientes | Venta de chelas/barriles |
 | **Impacto en CPC** | ✅ Sí afecta | ❌ No afecta |
 | **Categorías** | Múltiples | Solo ventas |
 
@@ -372,7 +372,7 @@ Verás todos tus lotes registrados con:
 
 ```
 Precio Promedio por Pinta = Ingresos / Volumen
-Ejemplo: $8,500 / 120 pintas = $70.83 por pinta
+Ejemplo: $8,500 / 120 chelas = $70.83 por chela
 ```
 
 <div style="background: #d1ecf1; padding: 1rem; border-left: 4px solid #0c5460; margin: 1rem 0;">
@@ -503,7 +503,7 @@ Total Chelas = Pintas producidas en el período
 ```
 📦 Producción:
    - 3 lotes de IPA Dorada
-   - Total: 150 pintas
+   - Total: 150 chelas
    - Ingredientes: $4,500 MXN
    - Horas trabajadas: 24 horas
 
@@ -526,17 +526,17 @@ CÁLCULO:
 
 3. Costo Mano de Obra = 24 horas × $150 = $3,600
 
-4. Total Chelas = 150 pintas
+4. Total Chelas = 150 chelas
 
 5. CPC = ($4,500 + $15,000 + $3,600) / 150
        = $23,100 / 150
-       = $154.00 por pinta
+       = $154.00 por chela
 
 ───────────────────────────────────
 
 💰 PRECIO SUGERIDO (con 60% margen):
    = $154 × 1.6
-   = $246.40 por pinta
+   = $246.40 por chela
 ```
 
 ### Ganancia o Pérdida Neta
@@ -557,7 +557,7 @@ Total Gastos = Ingredientes + Renta + Salarios + Servicios + Otros
 Precio Promedio = Ingresos por Ventas / Volumen Vendido
 
 Ejemplo:
-$8,500 / 120 pintas = $70.83 por pinta
+$8,500 / 120 chelas = $70.83 por chela
 ```
 
 ---
@@ -584,7 +584,7 @@ $8,500 / 120 pintas = $70.83 por pinta
    ```
    Fecha: 2025-10-15
    Nombre: IPA Dorada
-   Volumen: 50 pintas
+   Volumen: 50 chelas
    Horas: 8
    Ingredientes: $1,200
    ```
@@ -605,7 +605,7 @@ $8,500 / 120 pintas = $70.83 por pinta
    ```
    Fecha: 2025-11-14
    Ingresos: $3,500
-   Volumen: 50 pintas
+   Volumen: 50 chelas
    ```
 
 #### Análisis en Dashboard
@@ -679,7 +679,7 @@ Nuevo Precio = Nuevo CPC × (1 + Nuevo Margen/100)
 Ejemplo:
 CPC = $180
 Margen = 70%
-Precio = $180 × 1.7 = $306 por pinta
+Precio = $180 × 1.7 = $306 por chela
 ```
 
 ---
@@ -876,7 +876,6 @@ Administrador del sistema
 
 **🍺 ¡Salud! Hecho con ❤️ para Cerveza Artesanal Molina**
 
-*Si este manual te resultó útil, ¡compártelo con otros cerveceros artesanales!*
 
 ---
 
