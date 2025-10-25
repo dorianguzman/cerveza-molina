@@ -767,6 +767,18 @@ main {
     font-style: italic;
 }
 
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.form-actions .cancel-btn {
+    display: none; /* Hidden by default, shown in edit mode */
+}
+
 /* Buttons */
 button.primary,
 input[type="submit"] {
@@ -872,9 +884,9 @@ table {
 }
 
 table th {
-    background: var(--color-copper);
-    color: white;
-    border-bottom: none;
+    background: linear-gradient(135deg, #3A3A3A 0%, #2C2C2C 100%);
+    color: var(--color-amber-gold);
+    border-bottom: 3px solid var(--color-amber-gold);
     padding: 1.25rem 1rem;
     text-align: left;
     font-weight: 600;
@@ -899,6 +911,73 @@ table tbody tr:hover {
     transform: scale(1.01);
 }
 
+/* Table Actions Container */
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Edit Button */
+.btn-edit {
+    background: linear-gradient(135deg, #5B9BD5, #4A7BA7);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit:hover {
+    background: linear-gradient(135deg, #4A7BA7, #3A6B97);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-edit svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Delete Button */
+.btn-delete {
+    background: linear-gradient(135deg, #DC3545, #C82333);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, #C82333, #A81D29);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+}
+
+.btn-delete svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Legacy table button styles (fallback) */
 table button {
     background-color: transparent;
     border: 1px solid var(--color-border-subtle);

@@ -329,8 +329,22 @@ function renderProductionTable() {
             <td>${formatNumber(batch.laborHours, 1)}</td>
             <td>${formatCurrency(batch.ingredientCost)}</td>
             <td>
-                <button onclick="editProductionBatch('${batch.id}')">Editar</button>
-                <button onclick="deleteProductionBatch('${batch.id}')">Eliminar</button>
+                <div class="table-actions">
+                    <button class="btn-edit" onclick="editProductionBatch('${batch.id}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Editar
+                    </button>
+                    <button class="btn-delete" onclick="deleteProductionBatch('${batch.id}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Eliminar
+                    </button>
+                </div>
             </td>
         `;
         tbody.appendChild(row);
@@ -353,9 +367,11 @@ function editProductionBatch(id) {
     // Store the ID being edited
     editingProductionId = id;
 
-    // Change button text
+    // Change button text and show cancel button
     const submitBtn = document.querySelector('#production-form button[type="submit"]');
     submitBtn.textContent = 'Actualizar Lote';
+    const cancelBtn = document.querySelector('#production-form .cancel-btn');
+    cancelBtn.style.display = 'inline-flex';
 
     // Scroll to form
     document.getElementById('production').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -366,6 +382,8 @@ function cancelProductionEdit() {
     document.getElementById('production-form').reset();
     const submitBtn = document.querySelector('#production-form button[type="submit"]');
     submitBtn.textContent = 'Registrar Lote';
+    const cancelBtn = document.querySelector('#production-form .cancel-btn');
+    cancelBtn.style.display = 'none';
 }
 
 async function deleteProductionBatch(id) {
@@ -453,8 +471,22 @@ function renderTransactionTable() {
             <td>${getCategoryDisplayName(trx.category)}</td>
             <td class="${typeClass}">${amountDisplay}</td>
             <td>
-                <button onclick="editTransactionRecord('${trx.id}')">Editar</button>
-                <button onclick="deleteTransactionRecord('${trx.id}')">Eliminar</button>
+                <div class="table-actions">
+                    <button class="btn-edit" onclick="editTransactionRecord('${trx.id}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Editar
+                    </button>
+                    <button class="btn-delete" onclick="deleteTransactionRecord('${trx.id}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Eliminar
+                    </button>
+                </div>
             </td>
         `;
         tbody.appendChild(row);
@@ -477,9 +509,11 @@ function editTransactionRecord(id) {
     // Store the ID being edited
     editingTransactionId = id;
 
-    // Change button text
+    // Change button text and show cancel button
     const submitBtn = document.querySelector('#transaction-form button[type="submit"]');
     submitBtn.textContent = 'Actualizar Transacción';
+    const cancelBtn = document.querySelector('#transaction-form .cancel-btn');
+    cancelBtn.style.display = 'inline-flex';
 
     // Scroll to form
     document.getElementById('transactions').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -490,6 +524,8 @@ function cancelTransactionEdit() {
     document.getElementById('transaction-form').reset();
     const submitBtn = document.querySelector('#transaction-form button[type="submit"]');
     submitBtn.textContent = 'Registrar Transacción';
+    const cancelBtn = document.querySelector('#transaction-form .cancel-btn');
+    cancelBtn.style.display = 'none';
 }
 
 async function deleteTransactionRecord(id) {
@@ -572,8 +608,22 @@ function renderSalesTable() {
             <td>${formatNumber(sale.volumeSold, 1)}</td>
             <td>${formatCurrency(avgPrice)}</td>
             <td>
-                <button onclick="editSalesRecord('${sale.id}')">Editar</button>
-                <button onclick="deleteSalesRecord('${sale.id}')">Eliminar</button>
+                <div class="table-actions">
+                    <button class="btn-edit" onclick="editSalesRecord('${sale.id}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Editar
+                    </button>
+                    <button class="btn-delete" onclick="deleteSalesRecord('${sale.id}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Eliminar
+                    </button>
+                </div>
             </td>
         `;
         tbody.appendChild(row);
@@ -594,9 +644,11 @@ function editSalesRecord(id) {
     // Store the ID being edited
     editingSalesId = id;
 
-    // Change button text
+    // Change button text and show cancel button
     const submitBtn = document.querySelector('#sales-form button[type="submit"]');
     submitBtn.textContent = 'Actualizar Ventas';
+    const cancelBtn = document.querySelector('#sales-form .cancel-btn');
+    cancelBtn.style.display = 'inline-flex';
 
     // Scroll to form
     document.getElementById('sales').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -607,6 +659,8 @@ function cancelSalesEdit() {
     document.getElementById('sales-form').reset();
     const submitBtn = document.querySelector('#sales-form button[type="submit"]');
     submitBtn.textContent = 'Registrar Ventas';
+    const cancelBtn = document.querySelector('#sales-form .cancel-btn');
+    cancelBtn.style.display = 'none';
 }
 
 async function deleteSalesRecord(id) {
