@@ -41,7 +41,7 @@ async function initializeData() {
     isLoading = true;
     try {
         console.log('📥 Loading data from GitHub...');
-        setSyncing();
+        if (typeof setSyncing === 'function') setSyncing();
         const githubData = await loadAllFromGitHub();
 
         dataCache = {
@@ -54,7 +54,7 @@ async function initializeData() {
         configCache = githubData.config || DEFAULT_CONFIG;
 
         console.log('✅ Data loaded successfully from GitHub');
-        setSyncComplete();
+        if (typeof setSyncComplete === 'function') setSyncComplete();
         return dataCache;
     } catch (error) {
         console.error('❌ Error loading data from GitHub:', error);
@@ -92,14 +92,14 @@ async function initializeConfig() {
  */
 async function saveData(data) {
     try {
-        setSyncing();
+        if (typeof setSyncing === 'function') setSyncing();
         showToast('💾 Guardando en GitHub...', 'info');
         await saveFileToGitHub(DATA_FILES.production, data.production, 'Update production data');
         await saveFileToGitHub(DATA_FILES.transactions, data.transactions, 'Update transactions data');
         await saveFileToGitHub(DATA_FILES.sales, data.sales, 'Update sales data');
         dataCache = data;
         console.log('✅ Data saved to GitHub');
-        setSyncComplete();
+        if (typeof setSyncComplete === 'function') setSyncComplete();
         showToast('✅ Guardado en GitHub', 'success');
     } catch (error) {
         console.error('❌ Error saving data to GitHub:', error);
@@ -114,10 +114,10 @@ async function saveData(data) {
  */
 async function saveConfig(config) {
     try {
-        setSyncing();
+        if (typeof setSyncing === 'function') setSyncing();
         await saveFileToGitHub(DATA_FILES.config, config, 'Update config');
         configCache = config;
-        setSyncComplete();
+        if (typeof setSyncComplete === 'function') setSyncComplete();
         console.log('✅ Config saved to GitHub');
     } catch (error) {
         console.error('❌ Error saving config to GitHub:', error);
