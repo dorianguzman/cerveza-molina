@@ -573,11 +573,11 @@ function loadConfigValues() {
 
     // Populate form inputs
     document.getElementById('config-labor-rate').value = config.laborRate || 150;
-    document.getElementById('config-margin').value = config.profitMarginPercentage || 30;
+    document.getElementById('config-margin').value = config.profitMarginPercentage || 60;
 
     // Update read-only view
     document.getElementById('view-labor-rate').textContent = formatCurrency(config.laborRate || 150) + '/hora';
-    document.getElementById('view-margin').textContent = (config.profitMarginPercentage || 30) + '%';
+    document.getElementById('view-margin').textContent = (config.profitMarginPercentage || 60) + '%';
 
     // Update configured repo display
     const repo = getGitHubRepo();

@@ -1,5 +1,5 @@
 {
   "laborRate": 150,
-  "profitMarginMultiplier": 3,
+  "profitMarginPercentage": 60,
   "version": "1.0"
 }
