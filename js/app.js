@@ -353,15 +353,12 @@ function initializeConfigForm() {
         e.preventDefault();
 
         const configData = {
-            laborRate: parseFloat(document.getElementById('config-labor-rate').value),
-            monthlyRent: parseFloat(document.getElementById('config-rent').value),
-            monthlySalaries: parseFloat(document.getElementById('config-salaries').value),
-            monthlyUtilities: parseFloat(document.getElementById('config-utilities').value)
+            laborRate: parseFloat(document.getElementById('config-labor-rate').value)
         };
 
         const margin = parseFloat(document.getElementById('config-margin').value);
 
-        // Update fixed costs
+        // Update labor rate
         updateFixedCosts(configData);
 
         // Update profit margin
@@ -371,36 +368,42 @@ function initializeConfigForm() {
         loadConfigValues();
         updateDashboard();
 
+        // Hide form, show view
+        toggleConfigEdit();
+
         showToast('¡Configuración guardada exitosamente!');
     });
+}
+
+function toggleConfigEdit() {
+    const view = document.getElementById('config-view');
+    const form = document.getElementById('config-form');
+    const editBtn = document.getElementById('config-edit-btn');
+
+    if (form.style.display === 'none') {
+        // Show form, hide view
+        form.style.display = 'block';
+        view.style.display = 'none';
+        editBtn.style.display = 'none';
+    } else {
+        // Show view, hide form
+        form.style.display = 'none';
+        view.style.display = 'block';
+        editBtn.style.display = 'block';
+    }
 }
 
 function loadConfigValues() {
     const fixedCosts = getFixedCosts();
     const margin = getProfitMarginMultiplier();
 
-    // Populate form
+    // Populate form inputs
     document.getElementById('config-labor-rate').value = fixedCosts.laborRate || 150;
-    document.getElementById('config-rent').value = fixedCosts.monthlyRent || 0;
-    document.getElementById('config-salaries').value = fixedCosts.monthlySalaries || 0;
-    document.getElementById('config-utilities').value = fixedCosts.monthlyUtilities || 0;
     document.getElementById('config-margin').value = margin;
 
-    // Update summary
-    updateConfigSummary(fixedCosts, margin);
-}
-
-function updateConfigSummary(fixedCosts, margin) {
-    const totalFixed = (fixedCosts.monthlyRent || 0) +
-                       (fixedCosts.monthlySalaries || 0) +
-                       (fixedCosts.monthlyUtilities || 0);
-
-    document.getElementById('summary-labor-rate').textContent = formatCurrency(fixedCosts.laborRate || 0) + '/hora';
-    document.getElementById('summary-rent').textContent = formatCurrency(fixedCosts.monthlyRent || 0);
-    document.getElementById('summary-salaries').textContent = formatCurrency(fixedCosts.monthlySalaries || 0);
-    document.getElementById('summary-utilities').textContent = formatCurrency(fixedCosts.monthlyUtilities || 0);
-    document.getElementById('summary-total-fixed').textContent = formatCurrency(totalFixed);
-    document.getElementById('summary-margin').textContent = margin.toFixed(1) + 'x';
+    // Update read-only view
+    document.getElementById('view-labor-rate').textContent = formatCurrency(fixedCosts.laborRate || 150) + '/hora';
+    document.getElementById('view-margin').textContent = margin.toFixed(1) + 'x';
 }
 
 // ====================

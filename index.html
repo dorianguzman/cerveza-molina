@@ -337,51 +337,46 @@
 
         <!-- Configuration Section -->
         <section id="config" class="section">
-            <h2>Configuración</h2>
+            <h2>⚙️ Configuración de Parámetros</h2>
 
-            <div class="card form-card">
-                <h3>Costos y Parámetros</h3>
-                <p>Configure los costos fijos y parámetros de cálculo para su cervecería.</p>
-                <form id="config-form">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Parámetros de Cálculo</h3>
+                    <button id="config-edit-btn" class="primary" onclick="toggleConfigEdit()">Editar</button>
+                </div>
+
+                <!-- Read-only view -->
+                <div id="config-view">
+                    <p><strong>Tarifa de Mano de Obra:</strong> <span id="view-labor-rate">$150.00 MXN/hora</span></p>
+                    <p style="margin-left: 1.5rem; font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                        Costo por hora de trabajo directo en la producción
+                    </p>
+                    <p><strong>Multiplicador de Margen de Ganancia:</strong> <span id="view-margin">3.0x</span></p>
+                    <p style="margin-left: 1.5rem; font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                        Precio Recomendado = CPC × este multiplicador (ej: 3 = margen de 200%)
+                    </p>
+                    <p style="margin-top: 1.5rem; padding: 1rem; background: #f5f5f5; border-left: 4px solid var(--color-molina-red); font-size: 0.9rem; color: #666;">
+                        <strong>Nota:</strong> Los costos de renta, salarios y servicios deben registrarse en la sección de Transacciones.
+                    </p>
+                </div>
+
+                <!-- Edit form (hidden by default) -->
+                <form id="config-form" style="display: none;">
                     <div class="form-group">
                         <label for="config-labor-rate">Tarifa de Mano de Obra (MXN/hora):</label>
                         <input type="number" id="config-labor-rate" step="0.01" required>
                         <small>Costo por hora de trabajo directo en la producción</small>
                     </div>
                     <div class="form-group">
-                        <label for="config-rent">Renta Mensual (MXN):</label>
-                        <input type="number" id="config-rent" step="0.01" required>
-                        <small>Costo mensual de renta del espacio de producción</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="config-salaries">Salarios Mensuales (MXN):</label>
-                        <input type="number" id="config-salaries" step="0.01" required>
-                        <small>Total de salarios fijos mensuales (no incluye mano de obra directa)</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="config-utilities">Servicios Mensuales (MXN):</label>
-                        <input type="number" id="config-utilities" step="0.01" required>
-                        <small>Luz, agua, gas, internet, etc.</small>
-                    </div>
-                    <div class="form-group">
                         <label for="config-margin">Multiplicador de Margen de Ganancia:</label>
                         <input type="number" id="config-margin" step="0.1" min="1" required>
                         <small>Precio Recomendado = CPC × este multiplicador (ej: 3 = margen de 200%)</small>
                     </div>
-                    <button type="submit" class="primary">Guardar Configuración</button>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="primary">Guardar Cambios</button>
+                        <button type="button" class="secondary" onclick="toggleConfigEdit()">Cancelar</button>
+                    </div>
                 </form>
-            </div>
-
-            <div class="card">
-                <h3>Información Actual</h3>
-                <div id="config-summary">
-                    <p><strong>Tarifa Mano de Obra:</strong> <span id="summary-labor-rate">$0.00 MXN/hora</span></p>
-                    <p><strong>Renta Mensual:</strong> <span id="summary-rent">$0.00 MXN</span></p>
-                    <p><strong>Salarios Mensuales:</strong> <span id="summary-salaries">$0.00 MXN</span></p>
-                    <p><strong>Servicios Mensuales:</strong> <span id="summary-utilities">$0.00 MXN</span></p>
-                    <p><strong>Costos Fijos Mensuales Totales:</strong> <span id="summary-total-fixed">$0.00 MXN</span></p>
-                    <p><strong>Multiplicador de Margen:</strong> <span id="summary-margin">3.0x</span></p>
-                </div>
             </div>
         </section>
 

@@ -378,6 +378,30 @@ input[type="submit"]:active {
     transform: translateY(0) scale(0.98);
 }
 
+button.secondary {
+    background: white;
+    color: var(--color-molina-red);
+    border: 2px solid var(--color-molina-red);
+    padding: 0.75rem 2rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.secondary:hover {
+    background: var(--color-molina-red);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(128, 42, 42, 0.3);
+}
+
+button.secondary:active {
+    transform: translateY(0);
+}
+
 button.danger {
     background-color: var(--color-highlight-negative);
     color: white;
