@@ -93,28 +93,59 @@ function showConfirmDialog(options) {
 // ====================
 
 function initializeNavigation() {
-    const navButtons = document.querySelectorAll('.nav-btn');
+    // Initialize submenu card clicks
+    const submenuCards = document.querySelectorAll('.submenu-card');
 
-    navButtons.forEach(button => {
-        button.addEventListener('click', function() {
+    submenuCards.forEach(card => {
+        card.addEventListener('click', function() {
             const targetSection = this.getAttribute('data-section');
-
-            // Update active button
-            navButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-
-            // Update active section
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(targetSection).classList.add('active');
-
-            // If navigating to dashboard, update it
-            if (targetSection === 'dashboard') {
-                updateDashboard();
-            }
+            showSection(targetSection);
         });
     });
+}
+
+function showMenuGroup(group) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Show the submenu for this group
+    document.getElementById(`${group}-menu`).classList.add('active');
+
+    // Show back button
+    document.getElementById('back-btn').style.display = 'inline-flex';
+}
+
+function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Show the target section
+    document.getElementById(sectionId).classList.add('active');
+
+    // Show back button
+    document.getElementById('back-btn').style.display = 'inline-flex';
+
+    // If navigating to dashboard, update it
+    if (sectionId === 'dashboard') {
+        updateDashboard();
+    }
+}
+
+function goToHome() {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Show home
+    document.getElementById('home').classList.add('active');
+
+    // Hide back button
+    document.getElementById('back-btn').style.display = 'none';
 }
 
 // ====================

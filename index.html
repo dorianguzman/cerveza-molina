@@ -65,8 +65,93 @@
     <!-- Main Content -->
     <main class="container">
 
+        <!-- Back Button (hidden on home) -->
+        <button id="back-btn" class="back-btn" onclick="goToHome()" style="display: none;">
+            ← Volver al Menú Principal
+        </button>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <h2>Menú Principal</h2>
+
+            <div class="menu-grid">
+                <!-- Reportes Card -->
+                <div class="menu-card" onclick="showMenuGroup('reportes')">
+                    <div class="menu-card-icon">📊</div>
+                    <h3>Reportes</h3>
+                    <p>Tablero de control y estado de pérdidas y ganancias</p>
+                    <div class="menu-card-arrow">→</div>
+                </div>
+
+                <!-- Ingresar Registros Card -->
+                <div class="menu-card" onclick="showMenuGroup('registros')">
+                    <div class="menu-card-icon">📝</div>
+                    <h3>Ingresar Registros</h3>
+                    <p>Producción, transacciones y ventas</p>
+                    <div class="menu-card-arrow">→</div>
+                </div>
+
+                <!-- Ajustes Card -->
+                <div class="menu-card" onclick="showMenuGroup('ajustes')">
+                    <div class="menu-card-icon">⚙️</div>
+                    <h3>Ajustes</h3>
+                    <p>Gestión de datos y parámetros</p>
+                    <div class="menu-card-arrow">→</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reportes Group Section -->
+        <section id="reportes-menu" class="section submenu-section">
+            <h2>Reportes</h2>
+            <div class="submenu-grid">
+                <div class="submenu-card" data-section="dashboard">
+                    <h3>📈 Tablero</h3>
+                    <p>KPIs y gráficas del negocio</p>
+                </div>
+                <div class="submenu-card" data-section="reports">
+                    <h3>📄 Estado PyG</h3>
+                    <p>Pérdidas y ganancias detallado</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registros Group Section -->
+        <section id="registros-menu" class="section submenu-section">
+            <h2>Ingresar Registros</h2>
+            <div class="submenu-grid">
+                <div class="submenu-card" data-section="production">
+                    <h3>🍺 Producción</h3>
+                    <p>Lotes de producción</p>
+                </div>
+                <div class="submenu-card" data-section="transactions">
+                    <h3>💰 Transacciones</h3>
+                    <p>Ingresos y gastos</p>
+                </div>
+                <div class="submenu-card" data-section="sales">
+                    <h3>🛒 Ventas</h3>
+                    <p>Registro de ventas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ajustes Group Section -->
+        <section id="ajustes-menu" class="section submenu-section">
+            <h2>Ajustes</h2>
+            <div class="submenu-grid">
+                <div class="submenu-card" data-section="data">
+                    <h3>💾 Datos</h3>
+                    <p>Importar, exportar y gestionar</p>
+                </div>
+                <div class="submenu-card" data-section="config">
+                    <h3>⚙️ Parámetros</h3>
+                    <p>Configuración y sincronización</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Dashboard Section -->
-        <section id="dashboard" class="section active">
+        <section id="dashboard" class="section">
             <h2>Tablero de Control</h2>
 
             <!-- Period Filter -->
