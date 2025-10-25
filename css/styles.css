@@ -1616,7 +1616,8 @@ body {
     letter-spacing: 0.5px;
 }
 
-.auth-input-group input {
+.auth-input-group input,
+.auth-input-group select {
     width: 100%;
     padding: 0.875rem 1rem;
     border: 2px solid var(--color-border-subtle);
@@ -1626,14 +1627,39 @@ body {
     transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.9);
     box-sizing: border-box;
+    cursor: pointer;
 }
 
-.auth-input-group input:focus {
+.auth-input-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 3rem;
+}
+
+.auth-input-group input:focus,
+.auth-input-group select:focus {
     outline: none;
     border-color: var(--color-amber-gold);
     box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15), var(--shadow-gold);
     background: white;
     transform: translateY(-1px);
+}
+
+.auth-input-group select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.auth-input-group select option {
+    padding: 0.75rem;
+    background: white;
+    color: var(--color-charcoal);
+}
+
+.auth-input-group select option:first-child {
+    color: #999;
 }
 
 .auth-input-group small {
