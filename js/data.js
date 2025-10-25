@@ -475,25 +475,25 @@ async function ensureDataFilesExist() {
         // Check if we need to create any files
         let needsInitialization = false;
 
-        if (!githubData.production || githubData.production.length === 0) {
+        if (!githubData.production) {
             console.log('📝 Initializing production data...');
             await saveFileToGitHub(DATA_FILES.production, [], 'Initialize production data [skip ci]');
             needsInitialization = true;
         }
 
-        if (!githubData.transactions || githubData.transactions.length === 0) {
+        if (!githubData.transactions) {
             console.log('📝 Initializing transactions data...');
             await saveFileToGitHub(DATA_FILES.transactions, [], 'Initialize transactions data [skip ci]');
             needsInitialization = true;
         }
 
-        if (!githubData.sales || githubData.sales.length === 0) {
+        if (!githubData.sales) {
             console.log('📝 Initializing sales data...');
             await saveFileToGitHub(DATA_FILES.sales, [], 'Initialize sales data [skip ci]');
             needsInitialization = true;
         }
 
-        if (!githubData.config || !githubData.config.laborRate) {
+        if (!githubData.config) {
             console.log('📝 Initializing config...');
             await saveFileToGitHub(DATA_FILES.config, DEFAULT_CONFIG, 'Initialize config [skip ci]');
             needsInitialization = true;
