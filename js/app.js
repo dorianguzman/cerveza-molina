@@ -340,6 +340,70 @@ async function deleteSalesRecord(id) {
 }
 
 // ====================
+// CONFIGURATION MODULE
+// ====================
+
+function initializeConfigForm() {
+    const form = document.getElementById('config-form');
+
+    // Load current configuration
+    loadConfigValues();
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const configData = {
+            laborRate: parseFloat(document.getElementById('config-labor-rate').value),
+            monthlyRent: parseFloat(document.getElementById('config-rent').value),
+            monthlySalaries: parseFloat(document.getElementById('config-salaries').value),
+            monthlyUtilities: parseFloat(document.getElementById('config-utilities').value)
+        };
+
+        const margin = parseFloat(document.getElementById('config-margin').value);
+
+        // Update fixed costs
+        updateFixedCosts(configData);
+
+        // Update profit margin
+        setProfitMarginMultiplier(margin);
+
+        // Refresh displays
+        loadConfigValues();
+        updateDashboard();
+
+        showToast('¡Configuración guardada exitosamente!');
+    });
+}
+
+function loadConfigValues() {
+    const fixedCosts = getFixedCosts();
+    const margin = getProfitMarginMultiplier();
+
+    // Populate form
+    document.getElementById('config-labor-rate').value = fixedCosts.laborRate || 150;
+    document.getElementById('config-rent').value = fixedCosts.monthlyRent || 0;
+    document.getElementById('config-salaries').value = fixedCosts.monthlySalaries || 0;
+    document.getElementById('config-utilities').value = fixedCosts.monthlyUtilities || 0;
+    document.getElementById('config-margin').value = margin;
+
+    // Update summary
+    updateConfigSummary(fixedCosts, margin);
+}
+
+function updateConfigSummary(fixedCosts, margin) {
+    const totalFixed = (fixedCosts.monthlyRent || 0) +
+                       (fixedCosts.monthlySalaries || 0) +
+                       (fixedCosts.monthlyUtilities || 0);
+
+    document.getElementById('summary-labor-rate').textContent = formatCurrency(fixedCosts.laborRate || 0) + '/hora';
+    document.getElementById('summary-rent').textContent = formatCurrency(fixedCosts.monthlyRent || 0);
+    document.getElementById('summary-salaries').textContent = formatCurrency(fixedCosts.monthlySalaries || 0);
+    document.getElementById('summary-utilities').textContent = formatCurrency(fixedCosts.monthlyUtilities || 0);
+    document.getElementById('summary-total-fixed').textContent = formatCurrency(totalFixed);
+    document.getElementById('summary-margin').textContent = margin.toFixed(1) + 'x';
+}
+
+// ====================
 // REPORTS MODULE
 // ====================
 
@@ -521,6 +585,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeProductionForm();
     initializeTransactionForm();
     initializeSalesForm();
+    initializeConfigForm();
 
     // Render initial tables
     renderProductionTable();
