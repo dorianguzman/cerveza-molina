@@ -224,6 +224,7 @@ main {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     margin-top: 2rem;
+    width: 100%;
     max-width: 800px;
 }
 
@@ -297,6 +298,7 @@ main {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     margin-top: 2rem;
+    width: 100%;
     max-width: 800px;
 }
 
