@@ -155,7 +155,7 @@ function goToHome() {
 function initializeProductionForm() {
     const form = document.getElementById('production-form');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const productionData = {
@@ -166,10 +166,14 @@ function initializeProductionForm() {
             ingredientCost: document.getElementById('prod-ingredients').value
         };
 
-        addProduction(productionData);
-        form.reset();
-        renderProductionTable();
-        showToast('¡Lote de producción registrado exitosamente!');
+        try {
+            await addProduction(productionData);
+            form.reset();
+            renderProductionTable();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error adding production:', error);
+        }
     });
 
     // Set today's date as default
@@ -214,10 +218,13 @@ async function deleteProductionBatch(id) {
     });
 
     if (confirmed) {
-        deleteProduction(id);
-        renderProductionTable();
-        updateDashboard();
-        showToast('Registro eliminado correctamente', 'success');
+        try {
+            await deleteProduction(id);
+            renderProductionTable();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error deleting production:', error);
+        }
     }
 }
 
@@ -228,7 +235,7 @@ async function deleteProductionBatch(id) {
 function initializeTransactionForm() {
     const form = document.getElementById('transaction-form');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const transactionData = {
@@ -239,10 +246,14 @@ function initializeTransactionForm() {
             category: document.getElementById('trx-category').value
         };
 
-        addTransaction(transactionData);
-        form.reset();
-        renderTransactionTable();
-        showToast('¡Transacción registrada exitosamente!');
+        try {
+            await addTransaction(transactionData);
+            form.reset();
+            renderTransactionTable();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error adding transaction:', error);
+        }
     });
 
     // Set today's date as default
@@ -291,10 +302,13 @@ async function deleteTransactionRecord(id) {
     });
 
     if (confirmed) {
-        deleteTransaction(id);
-        renderTransactionTable();
-        updateDashboard();
-        showToast('Transacción eliminada correctamente', 'success');
+        try {
+            await deleteTransaction(id);
+            renderTransactionTable();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error deleting transaction:', error);
+        }
     }
 }
 
@@ -305,7 +319,7 @@ async function deleteTransactionRecord(id) {
 function initializeSalesForm() {
     const form = document.getElementById('sales-form');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const salesData = {
@@ -314,10 +328,14 @@ function initializeSalesForm() {
             volumeSold: document.getElementById('sales-volume').value
         };
 
-        addSales(salesData);
-        form.reset();
-        renderSalesTable();
-        showToast('¡Ventas registradas exitosamente!');
+        try {
+            await addSales(salesData);
+            form.reset();
+            renderSalesTable();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error adding sales:', error);
+        }
     });
 
     // Set today's date as default
@@ -363,10 +381,13 @@ async function deleteSalesRecord(id) {
     });
 
     if (confirmed) {
-        deleteSales(id);
-        renderSalesTable();
-        updateDashboard();
-        showToast('Ventas eliminadas correctamente', 'success');
+        try {
+            await deleteSales(id);
+            renderSalesTable();
+            updateDashboard();
+        } catch (error) {
+            console.error('Error deleting sales:', error);
+        }
     }
 }
 
@@ -380,7 +401,7 @@ function initializeConfigForm() {
     // Load current configuration
     loadConfigValues();
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const configData = {
@@ -389,20 +410,22 @@ function initializeConfigForm() {
 
         const margin = parseFloat(document.getElementById('config-margin').value);
 
-        // Update config
-        updateConfig({
-            laborRate: configData.laborRate,
-            profitMarginMultiplier: margin
-        });
+        try {
+            // Update config
+            await updateConfig({
+                laborRate: configData.laborRate,
+                profitMarginMultiplier: margin
+            });
 
-        // Refresh displays
-        loadConfigValues();
-        updateDashboard();
+            // Refresh displays
+            loadConfigValues();
+            updateDashboard();
 
-        // Hide form, show view
-        toggleConfigEdit();
-
-        showToast('¡Configuración guardada exitosamente!');
+            // Hide form, show view
+            toggleConfigEdit();
+        } catch (error) {
+            console.error('Error updating config:', error);
+        }
     });
 }
 
@@ -754,16 +777,15 @@ function escapeHtml(text) {
 async function initializeApp() {
     console.log('🚀 Initializing Molina App...');
 
+    // Load data from GitHub FIRST (before anything else)
+    await initializeDataOnLoad();
+
     // Initialize all modules
     initializeNavigation();
     initializeProductionForm();
     initializeTransactionForm();
     initializeSalesForm();
     initializeConfigForm();
-    initializeGitHubSync();
-
-    // Try to load and merge data from GitHub
-    await loadFromGitHubAndMerge();
 
     // Render initial tables
     renderProductionTable();

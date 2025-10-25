@@ -38,14 +38,16 @@ async function initializeAuth() {
  */
 async function loadPasswordHash() {
     try {
+        console.log('📂 Loading auth-hash.json...');
         const response = await fetch('auth-hash.json');
         if (!response.ok) {
-            throw new Error('Could not load auth-hash.json');
+            throw new Error(`Could not load auth-hash.json: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
+        console.log('✅ Password hash loaded successfully');
         return data.passwordHash;
     } catch (error) {
-        console.error('Error loading password hash:', error);
+        console.error('❌ Error loading password hash:', error);
         showAuthError('Error: No se pudo cargar la configuración de autenticación. Contacta al administrador.');
         return null;
     }
@@ -69,10 +71,16 @@ async function hashPassword(password) {
 async function validatePassword(password) {
     const correctHash = await loadPasswordHash();
     if (!correctHash) {
+        console.error('❌ Could not load password hash from auth-hash.json');
         return false;
     }
 
     const inputHash = await hashPassword(password);
+    console.log('🔐 Password validation:', {
+        inputHash,
+        correctHash,
+        match: inputHash === correctHash
+    });
     return inputHash === correctHash;
 }
 

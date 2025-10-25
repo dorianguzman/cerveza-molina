@@ -1,85 +1,152 @@
 /*
- * DATA.JS - Data Model and LocalStorage Management
- * Handles all data persistence and CRUD operations
+ * DATA.JS - GitHub-Only Data Management
+ * All data stored in GitHub repository (no localStorage)
+ * Requires authentication via auth.js
  */
 
-// Data Storage Keys
-const STORAGE_KEY = 'claude_brewery_ledger';
-const CONFIG_KEY = 'molina_config';
+// In-memory cache to reduce API calls
+let dataCache = null;
+let configCache = null;
+let isLoading = false;
 
-// Initialize Data Structure
-function initializeData() {
-    const defaultData = {
-        production: [],
-        transactions: [],
-        sales: [],
-        version: '1.0'
-    };
+// Default data structures
+const DEFAULT_DATA = {
+    production: [],
+    transactions: [],
+    sales: [],
+    version: '1.0'
+};
 
-    const existing = localStorage.getItem(STORAGE_KEY);
-    if (!existing) {
-        saveData(defaultData);
-        return defaultData;
+const DEFAULT_CONFIG = {
+    laborRate: 150, // MXN per hour
+    profitMarginMultiplier: 3, // 3x markup
+    version: '1.0'
+};
+
+/**
+ * Initialize data from GitHub
+ * Called once at app startup
+ */
+async function initializeData() {
+    if (isLoading) {
+        console.log('⏳ Data already loading...');
+        return dataCache || DEFAULT_DATA;
     }
 
-    return JSON.parse(existing);
-}
-
-// Initialize Config Structure (separate from ledger data)
-function initializeConfig() {
-    const defaultConfig = {
-        laborRate: 150, // MXN per hour
-        profitMarginMultiplier: 3, // 3x markup
-        version: '1.0'
-    };
-
-    const existing = localStorage.getItem(CONFIG_KEY);
-    if (!existing) {
-        // Check if old data structure exists and migrate
-        const oldData = localStorage.getItem(STORAGE_KEY);
-        if (oldData) {
-            const parsed = JSON.parse(oldData);
-            if (parsed.fixedCosts) {
-                defaultConfig.laborRate = parsed.fixedCosts.laborRate || 150;
-            }
-            if (parsed.profitMarginMultiplier) {
-                defaultConfig.profitMarginMultiplier = parsed.profitMarginMultiplier;
-            }
-        }
-        saveConfig(defaultConfig);
-        return defaultConfig;
+    if (dataCache) {
+        console.log('✅ Using cached data');
+        return dataCache;
     }
 
-    return JSON.parse(existing);
+    isLoading = true;
+    try {
+        console.log('📥 Loading data from GitHub...');
+        const githubData = await loadAllFromGitHub();
+
+        dataCache = {
+            production: githubData.production || [],
+            transactions: githubData.transactions || [],
+            sales: githubData.sales || [],
+            version: '1.0'
+        };
+
+        configCache = githubData.config || DEFAULT_CONFIG;
+
+        console.log('✅ Data loaded successfully from GitHub');
+        return dataCache;
+    } catch (error) {
+        console.error('❌ Error loading data from GitHub:', error);
+        // Initialize with empty data if GitHub fails
+        dataCache = { ...DEFAULT_DATA };
+        configCache = { ...DEFAULT_CONFIG };
+        return dataCache;
+    } finally {
+        isLoading = false;
+    }
 }
 
-// Save Config to LocalStorage
-function saveConfig(config) {
-    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+/**
+ * Initialize config from GitHub
+ */
+async function initializeConfig() {
+    if (configCache) {
+        return configCache;
+    }
+
+    try {
+        const githubData = await loadAllFromGitHub();
+        configCache = githubData.config || DEFAULT_CONFIG;
+        return configCache;
+    } catch (error) {
+        console.error('Error loading config from GitHub:', error);
+        configCache = { ...DEFAULT_CONFIG };
+        return configCache;
+    }
 }
 
-// Load Config from LocalStorage
-function loadConfig() {
-    const config = localStorage.getItem(CONFIG_KEY);
-    return config ? JSON.parse(config) : initializeConfig();
+/**
+ * Save data to GitHub
+ * @param {Object} data - Data to save
+ */
+async function saveData(data) {
+    try {
+        showToast('💾 Guardando en GitHub...', 'info');
+        await saveFileToGitHub(DATA_FILES.production, data.production, 'Update production data');
+        await saveFileToGitHub(DATA_FILES.transactions, data.transactions, 'Update transactions data');
+        await saveFileToGitHub(DATA_FILES.sales, data.sales, 'Update sales data');
+        dataCache = data;
+        console.log('✅ Data saved to GitHub');
+        showToast('✅ Guardado en GitHub', 'success');
+    } catch (error) {
+        console.error('❌ Error saving data to GitHub:', error);
+        showToast('❌ Error al guardar en GitHub', 'error');
+        throw error;
+    }
 }
 
-// Save Data to LocalStorage
-function saveData(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+/**
+ * Save config to GitHub
+ * @param {Object} config - Config to save
+ */
+async function saveConfig(config) {
+    try {
+        await saveFileToGitHub(DATA_FILES.config, config, 'Update config');
+        configCache = config;
+        console.log('✅ Config saved to GitHub');
+    } catch (error) {
+        console.error('❌ Error saving config to GitHub:', error);
+        showToast('❌ Error al guardar configuración', 'error');
+        throw error;
+    }
 }
 
-// Load Data from LocalStorage
+/**
+ * Load data from cache (or initialize if not loaded)
+ */
 function loadData() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : initializeData();
+    if (!dataCache) {
+        console.warn('⚠️ Data not initialized, returning default');
+        return { ...DEFAULT_DATA };
+    }
+    return dataCache;
+}
+
+/**
+ * Load config from cache (or initialize if not loaded)
+ */
+function loadConfig() {
+    if (!configCache) {
+        console.warn('⚠️ Config not initialized, returning default');
+        return { ...DEFAULT_CONFIG };
+    }
+    return configCache;
 }
 
 // ====================
 // PRODUCTION OPERATIONS
 // ====================
 
-function addProduction(productionData) {
+async function addProduction(productionData) {
     const data = loadData();
     const newEntry = {
         id: generateId(),
@@ -92,7 +159,7 @@ function addProduction(productionData) {
     };
 
     data.production.push(newEntry);
-    saveData(data);
+    await saveData(data);
     return newEntry;
 }
 
@@ -106,30 +173,30 @@ function getAllProduction() {
     return data.production.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-function updateProduction(id, updates) {
+async function updateProduction(id, updates) {
     const data = loadData();
     const index = data.production.findIndex(p => p.id === id);
 
     if (index !== -1) {
         data.production[index] = { ...data.production[index], ...updates };
-        saveData(data);
+        await saveData(data);
         return data.production[index];
     }
 
     return null;
 }
 
-function deleteProduction(id) {
+async function deleteProduction(id) {
     const data = loadData();
     data.production = data.production.filter(p => p.id !== id);
-    saveData(data);
+    await saveData(data);
 }
 
 // ====================
 // TRANSACTION OPERATIONS
 // ====================
 
-function addTransaction(transactionData) {
+async function addTransaction(transactionData) {
     const data = loadData();
     const newEntry = {
         id: generateId(),
@@ -142,7 +209,7 @@ function addTransaction(transactionData) {
     };
 
     data.transactions.push(newEntry);
-    saveData(data);
+    await saveData(data);
     return newEntry;
 }
 
@@ -156,30 +223,30 @@ function getAllTransactions() {
     return data.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-function updateTransaction(id, updates) {
+async function updateTransaction(id, updates) {
     const data = loadData();
     const index = data.transactions.findIndex(t => t.id === id);
 
     if (index !== -1) {
         data.transactions[index] = { ...data.transactions[index], ...updates };
-        saveData(data);
+        await saveData(data);
         return data.transactions[index];
     }
 
     return null;
 }
 
-function deleteTransaction(id) {
+async function deleteTransaction(id) {
     const data = loadData();
     data.transactions = data.transactions.filter(t => t.id !== id);
-    saveData(data);
+    await saveData(data);
 }
 
 // ====================
 // SALES OPERATIONS
 // ====================
 
-function addSales(salesData) {
+async function addSales(salesData) {
     const data = loadData();
     const newEntry = {
         id: generateId(),
@@ -190,7 +257,7 @@ function addSales(salesData) {
     };
 
     data.sales.push(newEntry);
-    saveData(data);
+    await saveData(data);
     return newEntry;
 }
 
@@ -204,23 +271,23 @@ function getAllSales() {
     return data.sales.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-function updateSales(id, updates) {
+async function updateSales(id, updates) {
     const data = loadData();
     const index = data.sales.findIndex(s => s.id === id);
 
     if (index !== -1) {
         data.sales[index] = { ...data.sales[index], ...updates };
-        saveData(data);
+        await saveData(data);
         return data.sales[index];
     }
 
     return null;
 }
 
-function deleteSales(id) {
+async function deleteSales(id) {
     const data = loadData();
     data.sales = data.sales.filter(s => s.id !== id);
-    saveData(data);
+    await saveData(data);
 }
 
 // ====================
@@ -231,10 +298,10 @@ function getConfig() {
     return loadConfig();
 }
 
-function updateConfig(updates) {
+async function updateConfig(updates) {
     const config = loadConfig();
     const updatedConfig = { ...config, ...updates };
-    saveConfig(updatedConfig);
+    await saveConfig(updatedConfig);
     return updatedConfig;
 }
 
@@ -243,10 +310,10 @@ function getLaborRate() {
     return config.laborRate || 150;
 }
 
-function setLaborRate(rate) {
+async function setLaborRate(rate) {
     const config = loadConfig();
     config.laborRate = parseFloat(rate);
-    saveConfig(config);
+    await saveConfig(config);
 }
 
 function getProfitMarginMultiplier() {
@@ -254,10 +321,10 @@ function getProfitMarginMultiplier() {
     return config.profitMarginMultiplier || 3;
 }
 
-function setProfitMarginMultiplier(multiplier) {
+async function setProfitMarginMultiplier(multiplier) {
     const config = loadConfig();
     config.profitMarginMultiplier = parseFloat(multiplier);
-    saveConfig(config);
+    await saveConfig(config);
 }
 
 // ====================
@@ -314,7 +381,7 @@ function exportData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `claude_ledger_export_${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `molina_export_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -341,7 +408,7 @@ async function importData() {
             // Confirm before overwriting
             const confirmed = await showConfirmDialog({
                 title: 'Importar Datos',
-                message: '¿Está seguro de que desea importar estos datos? Esto sobrescribirá todos los datos actuales.',
+                message: '¿Está seguro de que desea importar estos datos? Esto sobrescribirá todos los datos en GitHub.',
                 confirmText: 'Sí, importar',
                 cancelText: 'Cancelar',
                 icon: '📥',
@@ -349,7 +416,7 @@ async function importData() {
             });
 
             if (confirmed) {
-                saveData(importedData);
+                await saveData(importedData);
                 showToast('¡Datos importados exitosamente! Recargando...', 'success');
                 setTimeout(() => window.location.reload(), 1500);
             }
@@ -364,7 +431,7 @@ async function importData() {
 async function clearAllData() {
     const firstConfirm = await showConfirmDialog({
         title: 'Borrar Todos los Datos',
-        message: '⚠️ ¿Está absolutamente seguro de que desea borrar TODOS los datos? Esta acción no se puede deshacer.',
+        message: '⚠️ ¿Está absolutamente seguro de que desea borrar TODOS los datos de GitHub? Esta acción no se puede deshacer.',
         confirmText: 'Continuar',
         cancelText: 'Cancelar',
         icon: '⚠️',
@@ -374,7 +441,7 @@ async function clearAllData() {
     if (firstConfirm) {
         const secondConfirm = await showConfirmDialog({
             title: 'Última Confirmación',
-            message: '¿Realmente desea eliminar todos los datos permanentemente?',
+            message: '¿Realmente desea eliminar todos los datos permanentemente de GitHub?',
             confirmText: 'Sí, eliminar todo',
             cancelText: 'Cancelar',
             icon: '🚨',
@@ -382,15 +449,16 @@ async function clearAllData() {
         });
 
         if (secondConfirm) {
-            localStorage.removeItem(STORAGE_KEY);
+            await saveData(DEFAULT_DATA);
+            await saveConfig(DEFAULT_CONFIG);
             showToast('Todos los datos han sido eliminados. Recargando...', 'success');
             setTimeout(() => window.location.reload(), 1500);
         }
     }
 }
 
-// Initialize on load
-document.addEventListener('DOMContentLoaded', function() {
-    initializeData();
-    initializeConfig();
-});
+// Initialize on load (called by app.js after authentication)
+async function initializeDataOnLoad() {
+    await initializeData();
+    await initializeConfig();
+}
