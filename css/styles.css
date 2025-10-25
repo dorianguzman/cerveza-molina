@@ -221,7 +221,7 @@ main {
 /* Menu Cards (Home Screen) */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -229,7 +229,7 @@ main {
 .menu-card {
     background: white;
     border-radius: 12px;
-    padding: 3rem 2rem;
+    padding: 2.5rem 3rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -287,7 +287,7 @@ main {
 /* Submenu Cards - Consistent with Menu Cards */
 .submenu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -295,7 +295,7 @@ main {
 .submenu-card {
     background: white;
     border-radius: 12px;
-    padding: 2.5rem 2rem;
+    padding: 2rem 2.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
