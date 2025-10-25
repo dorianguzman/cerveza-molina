@@ -746,8 +746,11 @@
                 <form id="auth-github-form">
                     <div class="auth-input-group">
                         <label for="github-repo">Repositorio de GitHub</label>
-                        <input type="text" id="github-repo" required placeholder="usuario/cerveza-molina" pattern="[^/]+/[^/]+">
-                        <small>Formato: usuario/nombre-repositorio</small>
+                        <select id="github-repo" required>
+                            <option value="">Selecciona un repositorio</option>
+                            <option value="dorianguzman/cerveza-molina">dorianguzman/cerveza-molina</option>
+                            <option value="FrdMolina/cerveza-molina">FrdMolina/cerveza-molina</option>
+                        </select>
                     </div>
 
                     <div class="auth-input-group">
