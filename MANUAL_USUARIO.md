@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Molina Logo](assets/small_logo.jpg)
+<img src="assets/small_logo.jpg" alt="Molina Logo" width="150">
 
 **Sistema de Gestión para Cervecerías Artesanales**
 
