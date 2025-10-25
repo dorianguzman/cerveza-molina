@@ -25,6 +25,8 @@ async function initializeAuth() {
     if (isAuthenticated()) {
         console.log('✅ Already authenticated');
         hideLoginScreen();
+        // Initialize the app immediately
+        initializeApp();
         return true;
     }
 
