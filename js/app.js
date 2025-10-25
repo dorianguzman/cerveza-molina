@@ -358,11 +358,11 @@ function initializeConfigForm() {
 
         const margin = parseFloat(document.getElementById('config-margin').value);
 
-        // Update labor rate
-        updateFixedCosts(configData);
-
-        // Update profit margin
-        setProfitMarginMultiplier(margin);
+        // Update config
+        updateConfig({
+            laborRate: configData.laborRate,
+            profitMarginMultiplier: margin
+        });
 
         // Refresh displays
         loadConfigValues();
@@ -394,16 +394,150 @@ function toggleConfigEdit() {
 }
 
 function loadConfigValues() {
-    const fixedCosts = getFixedCosts();
-    const margin = getProfitMarginMultiplier();
+    const config = getConfig();
 
     // Populate form inputs
-    document.getElementById('config-labor-rate').value = fixedCosts.laborRate || 150;
-    document.getElementById('config-margin').value = margin;
+    document.getElementById('config-labor-rate').value = config.laborRate || 150;
+    document.getElementById('config-margin').value = config.profitMarginMultiplier || 3;
 
     // Update read-only view
-    document.getElementById('view-labor-rate').textContent = formatCurrency(fixedCosts.laborRate || 150) + '/hora';
-    document.getElementById('view-margin').textContent = margin.toFixed(1) + 'x';
+    document.getElementById('view-labor-rate').textContent = formatCurrency(config.laborRate || 150) + '/hora';
+    document.getElementById('view-margin').textContent = (config.profitMarginMultiplier || 3).toFixed(1) + 'x';
+}
+
+// ====================
+// GITHUB SYNC MODULE
+// ====================
+
+function initializeGitHubSync() {
+    // Load token if exists and show sync controls
+    const token = getGitHubToken();
+    if (token) {
+        document.getElementById('github-token').value = token;
+        document.getElementById('sync-controls').style.display = 'block';
+        updateLastSyncDisplay();
+    }
+}
+
+function saveGitHubToken() {
+    const token = document.getElementById('github-token').value.trim();
+
+    if (!token) {
+        showToast('Por favor ingrese un token válido', 'error');
+        return;
+    }
+
+    // Validate token format (should start with ghp_ or github_pat_)
+    if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+        showToast('El token no parece válido. Debe comenzar con ghp_ o github_pat_', 'error');
+        return;
+    }
+
+    setGitHubToken(token);
+    document.getElementById('sync-controls').style.display = 'block';
+    showToast('Token de GitHub guardado exitosamente');
+}
+
+async function syncToGitHub() {
+    if (!isGitHubConfigured()) {
+        showToast('Por favor configure su token de GitHub primero', 'error');
+        return;
+    }
+
+    const syncBtn = document.querySelector('#sync-controls button');
+    const syncBtnText = document.getElementById('sync-btn-text');
+    const syncStatus = document.getElementById('sync-status');
+
+    try {
+        // Disable button and show loading
+        syncBtn.disabled = true;
+        syncBtnText.textContent = 'Sincronizando...';
+        syncStatus.textContent = '⏳ Guardando datos...';
+        syncStatus.style.color = '#666';
+
+        // Collect all data from localStorage
+        const config = getConfig();
+        const production = getAllProduction();
+        const transactions = getAllTransactions();
+        const sales = getAllSales();
+
+        // Save to GitHub
+        await saveAllToGitHub({
+            config,
+            production,
+            transactions,
+            sales
+        });
+
+        syncStatus.textContent = '✓ Sincronizado exitosamente';
+        syncStatus.style.color = '#28A745';
+        showToast('Datos sincronizados con GitHub exitosamente');
+
+        updateLastSyncDisplay();
+
+        // Reset status after 3 seconds
+        setTimeout(() => {
+            syncStatus.textContent = '';
+        }, 3000);
+
+    } catch (error) {
+        console.error('Error syncing to GitHub:', error);
+        syncStatus.textContent = '✗ Error en la sincronización';
+        syncStatus.style.color = '#DC3545';
+        showToast('Error al sincronizar: ' + error.message, 'error');
+    } finally {
+        syncBtn.disabled = false;
+        syncBtnText.textContent = 'Sincronizar Ahora';
+    }
+}
+
+async function loadFromGitHubAndMerge() {
+    if (!isGitHubConfigured()) {
+        return; // Silently skip if not configured
+    }
+
+    try {
+        const githubData = await loadAllFromGitHub();
+
+        // Get local data
+        const localData = {
+            config: getConfig(),
+            production: getAllProduction(),
+            transactions: getAllTransactions(),
+            sales: getAllSales()
+        };
+
+        // Merge data (latest timestamp wins)
+        const merged = mergeData(githubData, localData);
+
+        // Save merged data to localStorage
+        saveConfig(merged.config);
+
+        // Clear and reload production
+        const data = loadData();
+        data.production = merged.production;
+        data.transactions = merged.transactions;
+        data.sales = merged.sales;
+        saveData(data);
+
+        console.log('Data loaded and merged from GitHub');
+        return true;
+    } catch (error) {
+        console.error('Error loading from GitHub:', error);
+        return false;
+    }
+}
+
+function updateLastSyncDisplay() {
+    const lastSync = getLastSyncTime();
+    const display = document.getElementById('last-sync-time');
+
+    if (lastSync) {
+        const date = new Date(lastSync);
+        display.textContent = date.toLocaleString('es-MX');
+    } else {
+        display.textContent = 'Nunca';
+    }
 }
 
 // ====================
@@ -582,13 +716,17 @@ function escapeHtml(text) {
 // INITIALIZATION
 // ====================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Initialize all modules
     initializeNavigation();
     initializeProductionForm();
     initializeTransactionForm();
     initializeSalesForm();
     initializeConfigForm();
+    initializeGitHubSync();
+
+    // Try to load and merge data from GitHub
+    await loadFromGitHubAndMerge();
 
     // Render initial tables
     renderProductionTable();

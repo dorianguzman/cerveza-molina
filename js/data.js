@@ -3,8 +3,9 @@
  * Handles all data persistence and CRUD operations
  */
 
-// Data Storage Key
+// Data Storage Keys
 const STORAGE_KEY = 'claude_brewery_ledger';
+const CONFIG_KEY = 'molina_config';
 
 // Initialize Data Structure
 function initializeData() {
@@ -12,12 +13,6 @@ function initializeData() {
         production: [],
         transactions: [],
         sales: [],
-        fixedCosts: {
-            laborRate: 150, // MXN per hour - configurable
-            monthlyRent: 0,
-            monthlySalaries: 0,
-            monthlyUtilities: 0
-        },
         version: '1.0'
     };
 
@@ -28,6 +23,45 @@ function initializeData() {
     }
 
     return JSON.parse(existing);
+}
+
+// Initialize Config Structure (separate from ledger data)
+function initializeConfig() {
+    const defaultConfig = {
+        laborRate: 150, // MXN per hour
+        profitMarginMultiplier: 3, // 3x markup
+        version: '1.0'
+    };
+
+    const existing = localStorage.getItem(CONFIG_KEY);
+    if (!existing) {
+        // Check if old data structure exists and migrate
+        const oldData = localStorage.getItem(STORAGE_KEY);
+        if (oldData) {
+            const parsed = JSON.parse(oldData);
+            if (parsed.fixedCosts) {
+                defaultConfig.laborRate = parsed.fixedCosts.laborRate || 150;
+            }
+            if (parsed.profitMarginMultiplier) {
+                defaultConfig.profitMarginMultiplier = parsed.profitMarginMultiplier;
+            }
+        }
+        saveConfig(defaultConfig);
+        return defaultConfig;
+    }
+
+    return JSON.parse(existing);
+}
+
+// Save Config to LocalStorage
+function saveConfig(config) {
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+}
+
+// Load Config from LocalStorage
+function loadConfig() {
+    const config = localStorage.getItem(CONFIG_KEY);
+    return config ? JSON.parse(config) : initializeConfig();
 }
 
 // Save Data to LocalStorage
@@ -190,19 +224,40 @@ function deleteSales(id) {
 }
 
 // ====================
-// FIXED COSTS OPERATIONS
+// CONFIG OPERATIONS
 // ====================
 
-function getFixedCosts() {
-    const data = loadData();
-    return data.fixedCosts;
+function getConfig() {
+    return loadConfig();
 }
 
-function updateFixedCosts(updates) {
-    const data = loadData();
-    data.fixedCosts = { ...data.fixedCosts, ...updates };
-    saveData(data);
-    return data.fixedCosts;
+function updateConfig(updates) {
+    const config = loadConfig();
+    const updatedConfig = { ...config, ...updates };
+    saveConfig(updatedConfig);
+    return updatedConfig;
+}
+
+function getLaborRate() {
+    const config = loadConfig();
+    return config.laborRate || 150;
+}
+
+function setLaborRate(rate) {
+    const config = loadConfig();
+    config.laborRate = parseFloat(rate);
+    saveConfig(config);
+}
+
+function getProfitMarginMultiplier() {
+    const config = loadConfig();
+    return config.profitMarginMultiplier || 3;
+}
+
+function setProfitMarginMultiplier(multiplier) {
+    const config = loadConfig();
+    config.profitMarginMultiplier = parseFloat(multiplier);
+    saveConfig(config);
 }
 
 // ====================
@@ -337,4 +392,5 @@ async function clearAllData() {
 // Initialize on load
 document.addEventListener('DOMContentLoaded', function() {
     initializeData();
+    initializeConfig();
 });

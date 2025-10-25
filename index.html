@@ -402,6 +402,42 @@
                     </div>
                 </form>
             </div>
+
+            <!-- GitHub Sync Card -->
+            <div class="card">
+                <h3>Sincronización con GitHub</h3>
+                <p>Sincronice sus datos con GitHub para acceder desde múltiples dispositivos.</p>
+
+                <!-- GitHub Token Section -->
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label for="github-token">GitHub Personal Access Token:</label>
+                    <input type="password" id="github-token" placeholder="ghp_...">
+                    <small>
+                        <a href="https://github.com/settings/tokens/new?description=Molina%20Sync&scopes=repo" target="_blank">Crear nuevo token</a>
+                        con permisos de "repo"
+                    </small>
+                </div>
+
+                <button type="button" class="primary" onclick="saveGitHubToken()">Guardar Token</button>
+
+                <!-- Sync Controls -->
+                <div id="sync-controls" style="margin-top: 2rem; display: none;">
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                        <button type="button" class="primary" onclick="syncToGitHub()">
+                            <span id="sync-btn-text">Sincronizar Ahora</span>
+                        </button>
+                        <span id="sync-status" style="font-size: 0.9rem; color: #666;"></span>
+                    </div>
+
+                    <p style="font-size: 0.9rem; color: #666;">
+                        <strong>Última sincronización:</strong> <span id="last-sync-time">Nunca</span>
+                    </p>
+
+                    <p style="margin-top: 1rem; padding: 1rem; background: #f5f5f5; border-left: 4px solid var(--color-molina-red); font-size: 0.9rem;">
+                        <strong>Nota:</strong> Los datos se guardan automáticamente en localStorage y se pueden sincronizar manualmente con GitHub cuando lo desee.
+                    </p>
+                </div>
+            </div>
         </section>
 
     </main>
@@ -418,6 +454,7 @@
 
     <!-- Scripts -->
     <script src="js/data.js"></script>
+    <script src="js/github-sync.js"></script>
     <script src="js/calculations.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/app.js"></script>

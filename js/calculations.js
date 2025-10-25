@@ -19,7 +19,7 @@
  */
 function calculateCostPerBeer(month = null, year = null) {
     const data = loadData();
-    const fixedCosts = data.fixedCosts;
+    const laborRate = getLaborRate();
 
     // Filter production data by period
     let production = data.production;
@@ -48,18 +48,20 @@ function calculateCostPerBeer(month = null, year = null) {
     const totalLaborHours = production.reduce((sum, batch) => {
         return sum + batch.laborHours;
     }, 0);
-    const totalDirectLaborCost = totalLaborHours * fixedCosts.laborRate;
+    const totalDirectLaborCost = totalLaborHours * laborRate;
 
     // 3. Calculate Fixed Cost Amortization (FCA)
-    // Get unique months in the production period
-    const uniqueMonths = getUniqueMonthsFromProduction(production);
-    const numberOfMonths = uniqueMonths.length;
+    // Get fixed costs from transactions (renta, salarios, servicios)
+    let transactions = data.transactions.filter(t =>
+        t.type === 'expense' &&
+        (t.category === 'renta' || t.category === 'salario' || t.category === 'servicios')
+    );
 
-    const monthlyFixedCosts = (fixedCosts.monthlyRent || 0) +
-                              (fixedCosts.monthlySalaries || 0) +
-                              (fixedCosts.monthlyUtilities || 0);
+    if (month || year) {
+        transactions = filterByMonthYear(transactions, month, year);
+    }
 
-    const totalFixedCostAmortization = monthlyFixedCosts * numberOfMonths;
+    const totalFixedCostAmortization = transactions.reduce((sum, t) => sum + t.amount, 0);
 
     // 4. Calculate Total Pints Produced
     const totalPintsProduced = production.reduce((sum, batch) => {
@@ -78,9 +80,7 @@ function calculateCostPerBeer(month = null, year = null) {
         totalVariableCost: totalVariableCost,
         totalFixedCostAmortization: totalFixedCostAmortization,
         totalDirectLaborCost: totalDirectLaborCost,
-        totalCost: totalCost,
-        numberOfMonths: numberOfMonths,
-        monthlyFixedCosts: monthlyFixedCosts
+        totalCost: totalCost
     };
 }
 
@@ -312,10 +312,8 @@ function formatNumber(number, decimals = 2) {
  */
 function calculateCostPerBeerByType(month = null, year = null) {
     const data = loadData();
-    const fixedCosts = data.fixedCosts;
-
-    // Get profit margin multiplier (default 3x for craft beer)
-    const profitMarginMultiplier = data.profitMarginMultiplier || 3;
+    const laborRate = getLaborRate();
+    const profitMarginMultiplier = getProfitMarginMultiplier();
 
     // Filter production data
     let production = data.production;
@@ -345,17 +343,22 @@ function calculateCostPerBeerByType(month = null, year = null) {
 
         // Labor costs
         const totalLaborHours = batches.reduce((sum, batch) => sum + batch.laborHours, 0);
-        const totalDirectLaborCost = totalLaborHours * fixedCosts.laborRate;
+        const totalDirectLaborCost = totalLaborHours * laborRate;
 
         // Total pints for this beer
         const totalPints = batches.reduce((sum, batch) => sum + batch.volume, 0);
 
-        // Fixed cost allocation (proportional to labor hours)
-        const uniqueMonths = getUniqueMonthsFromProduction(batches);
-        const monthlyFixedCosts = (fixedCosts.monthlyRent || 0) +
-                                  (fixedCosts.monthlySalaries || 0) +
-                                  (fixedCosts.monthlyUtilities || 0);
-        const fixedCostAllocation = monthlyFixedCosts * uniqueMonths.length;
+        // Fixed cost allocation from transactions
+        let beerTransactions = data.transactions.filter(t =>
+            t.type === 'expense' &&
+            (t.category === 'renta' || t.category === 'salario' || t.category === 'servicios')
+        );
+
+        if (month || year) {
+            beerTransactions = filterByMonthYear(beerTransactions, month, year);
+        }
+
+        const fixedCostAllocation = beerTransactions.reduce((sum, t) => sum + t.amount, 0);
 
         // Calculate total cost
         const totalCost = totalVariableCost + totalDirectLaborCost + fixedCostAllocation;
@@ -379,18 +382,4 @@ function calculateCostPerBeerByType(month = null, year = null) {
 
     // Sort by beer name
     return results.sort((a, b) => a.beerName.localeCompare(b.beerName));
-}
-
-/**
- * Get/Set profit margin multiplier
- */
-function getProfitMarginMultiplier() {
-    const data = loadData();
-    return data.profitMarginMultiplier || 3;
-}
-
-function setProfitMarginMultiplier(multiplier) {
-    const data = loadData();
-    data.profitMarginMultiplier = parseFloat(multiplier);
-    saveData(data);
 }
