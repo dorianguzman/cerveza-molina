@@ -399,9 +399,6 @@ function initializeYearFilters() {
 }
 
 /**
- * Initialize dashboard on page load
+ * Dashboard initialization is handled by app.js after authentication
+ * initializeYearFilters() and updateDashboard() are called from initializeApp()
  */
-document.addEventListener('DOMContentLoaded', function() {
-    initializeYearFilters();
-    updateDashboard();
-});
