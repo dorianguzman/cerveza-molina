@@ -1017,6 +1017,17 @@ table button:hover {
 
 /* Responsive */
 @media (max-width: 768px) {
+    /* Better mobile scrolling */
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Prevent horizontal overflow */
+    body, html {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
     .container {
         padding: 0 1rem;
     }
@@ -1115,6 +1126,29 @@ table button:hover {
         border-right: none !important;
         border-bottom: 2px solid rgba(255,255,255,0.2) !important;
         padding-bottom: 1rem !important;
+    }
+
+    /* Touch-friendly interactive elements */
+    button, .menu-card, .submenu-card, select, input {
+        min-height: 44px;
+        -webkit-tap-highlight-color: rgba(212, 175, 55, 0.2);
+    }
+
+    /* Mobile form improvements */
+    input, select, textarea {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+
+    .auth-input-group select {
+        padding: 1rem;
+        background-size: 1.5rem;
+        background-position: right 0.75rem center;
+    }
+
+    /* Ensure table buttons are touch-friendly */
+    table button {
+        min-width: 44px;
+        padding: 0.5rem 0.75rem;
     }
 
     h1 {
