@@ -884,9 +884,9 @@ table {
 }
 
 table th {
-    background: linear-gradient(135deg, #3A3A3A 0%, #2C2C2C 100%);
-    color: var(--color-amber-gold);
-    border-bottom: 3px solid var(--color-amber-gold);
+    background: white;
+    color: var(--color-charcoal);
+    border-bottom: 2px solid var(--color-border-subtle);
     padding: 1.25rem 1rem;
     text-align: left;
     font-weight: 600;
