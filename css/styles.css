@@ -271,7 +271,7 @@ h3 {
 
 /* Navigation */
 .nav {
-    display: block;
+    display: none; /* Hidden - using card-based menu only */
     background-color: white;
     border-bottom: 2px solid var(--color-border-subtle);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
