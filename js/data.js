@@ -93,17 +93,17 @@ async function initializeConfig() {
 async function saveData(data) {
     try {
         if (typeof setSyncing === 'function') setSyncing();
-        showToast('💾 Guardando en GitHub...', 'info');
+        showToast('💾 Guardando en la Base de Datos...', 'info');
         await saveFileToGitHub(DATA_FILES.production, data.production, 'Update production data');
         await saveFileToGitHub(DATA_FILES.transactions, data.transactions, 'Update transactions data');
         await saveFileToGitHub(DATA_FILES.sales, data.sales, 'Update sales data');
         dataCache = data;
         console.log('✅ Data saved to GitHub');
         if (typeof setSyncComplete === 'function') setSyncComplete();
-        showToast('✅ Guardado en GitHub', 'success');
+        showToast('✅ Guardado en la Base de Datos', 'success');
     } catch (error) {
         console.error('❌ Error saving data to GitHub:', error);
-        showToast('❌ Error al guardar en GitHub', 'error');
+        showToast('❌ Error al guardar en la Base de Datos', 'error');
         throw error;
     }
 }
@@ -414,7 +414,7 @@ async function importData() {
             // Confirm before overwriting
             const confirmed = await showConfirmDialog({
                 title: 'Importar Datos',
-                message: '¿Está seguro de que desea importar estos datos? Esto sobrescribirá todos los datos en GitHub.',
+                message: '¿Está seguro de que desea importar estos datos? Esto sobrescribirá todos los datos en la Base de Datos.',
                 confirmText: 'Sí, importar',
                 cancelText: 'Cancelar',
                 icon: '📥',
@@ -437,7 +437,7 @@ async function importData() {
 async function clearAllData() {
     const firstConfirm = await showConfirmDialog({
         title: 'Borrar Todos los Datos',
-        message: '⚠️ ¿Está absolutamente seguro de que desea borrar TODOS los datos de GitHub? Esta acción no se puede deshacer.',
+        message: '⚠️ ¿Está absolutamente seguro de que desea borrar TODOS los datos de la Base de Datos? Esta acción no se puede deshacer.',
         confirmText: 'Continuar',
         cancelText: 'Cancelar',
         icon: '⚠️',
@@ -447,7 +447,7 @@ async function clearAllData() {
     if (firstConfirm) {
         const secondConfirm = await showConfirmDialog({
             title: 'Última Confirmación',
-            message: '¿Realmente desea eliminar todos los datos permanentemente de GitHub?',
+            message: '¿Realmente desea eliminar todos los datos permanentemente de la Base de Datos?',
             confirmText: 'Sí, eliminar todo',
             cancelText: 'Cancelar',
             icon: '🚨',
