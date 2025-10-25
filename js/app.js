@@ -916,6 +916,12 @@ async function initializeApp() {
     updateDashboard();
     console.log('✅ Dashboard updated');
 
+    // Force update sync status display one more time
+    setTimeout(() => {
+        updateLastSyncDisplay();
+        console.log('🔄 Sync status display force updated');
+    }, 100);
+
     console.log('🎉 Molina App fully initialized and ready!');
 }
 
