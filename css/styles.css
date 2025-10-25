@@ -872,7 +872,7 @@ table {
 }
 
 table th {
-    background: var(--gradient-beer);
+    background: var(--color-copper);
     color: white;
     border-bottom: none;
     padding: 1.25rem 1rem;
