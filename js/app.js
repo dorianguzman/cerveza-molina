@@ -703,18 +703,6 @@ async function loadFromGitHubAndMerge() {
     }
 }
 
-function updateLastSyncDisplay() {
-    const lastSync = getLastSyncTime();
-    const display = document.getElementById('last-sync-time');
-
-    if (lastSync) {
-        const date = new Date(lastSync);
-        display.textContent = date.toLocaleString('es-MX');
-    } else {
-        display.textContent = 'Nunca';
-    }
-}
-
 // ====================
 // REPORTS MODULE
 // ====================
