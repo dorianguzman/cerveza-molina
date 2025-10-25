@@ -919,12 +919,10 @@ table button:hover {
 /* Financial Indicators */
 .status-positive {
     color: var(--color-highlight-positive);
-    font-weight: 600;
 }
 
 .status-negative {
     color: var(--color-highlight-negative);
-    font-weight: 600;
 }
 
 /* Filter Card */
