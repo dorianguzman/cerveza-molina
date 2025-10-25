@@ -24,8 +24,8 @@ Una aplicación web completa para el control de producción, finanzas y cálculo
 - 💰 **Control Financiero** - Transacciones categorizadas e ingresos por ventas
 - 📊 **Análisis Completo** - Dashboard con KPIs y gráficas interactivas
 - 🧮 **Costo Por Chela** - Cálculo preciso con fórmula estándar
-- 💾 **Tus Datos, Tu Control** - Todo en tu navegador, exporta/importa JSON
-- 🔄 **Sync GitHub** - Opcional, comparte datos entre dispositivos
+- 🔐 **Autenticación Segura** - Acceso protegido con contraseña + GitHub PAT
+- 💾 **Almacenamiento GitHub** - Todos tus datos sincronizados en GitHub
 
 ---
 
@@ -35,7 +35,7 @@ Una aplicación web completa para el control de producción, finanzas y cálculo
 
 Simplemente abre: **https://dorianguzman.github.io/cerveza-molina/**
 
-No requiere instalación. Funciona en cualquier navegador moderno.
+Requiere autenticación con contraseña y GitHub Personal Access Token.
 
 ### Opción 2: Instalación Local
 
@@ -68,15 +68,16 @@ cerveza-molina/
 ├── index.html              # Aplicación SPA
 ├── README.md               # Este archivo
 ├── MANUAL_USUARIO.md       # Manual completo para usuarios
+├── auth-hash.json          # Hash de contraseña
 ├── css/styles.css          # Estilos Molina
 ├── js/
-│   ├── data.js             # Persistencia localStorage
+│   ├── auth.js             # Sistema de autenticación
+│   ├── data.js             # Gestión de datos (GitHub)
 │   ├── calculations.js     # Fórmulas CPC
 │   ├── dashboard.js        # Gráficas Chart.js
-│   ├── github-sync.js      # Sync GitHub API
+│   ├── github-sync.js      # API GitHub
 │   └── app.js              # Lógica principal
-├── assets/                 # Logo e imágenes
-└── data/                   # JSON para GitHub sync
+└── assets/                 # Logo e imágenes
 ```
 
 ---
@@ -100,8 +101,8 @@ El sistema calcula automáticamente y recomienda precios con margen configurable
 
 - HTML5 + CSS3 + Vanilla JavaScript (ES6+)
 - Chart.js para visualizaciones
-- localStorage para persistencia
-- GitHub REST API para sincronización (opcional)
+- GitHub REST API para almacenamiento
+- SHA-256 para autenticación
 
 **Sin dependencias de servidor. 100% client-side.**
 
@@ -109,10 +110,10 @@ El sistema calcula automáticamente y recomienda precios con margen configurable
 
 ## 🔒 Privacidad
 
-- Todos los datos se guardan localmente en tu navegador
-- Sin tracking, sin analytics, sin servidores externos
-- GitHub sync es opcional (requiere Personal Access Token)
-- Haz backups regulares exportando tus datos
+- Todos los datos se almacenan en tu repositorio privado de GitHub
+- Autenticación requerida: contraseña + GitHub Personal Access Token
+- Sin tracking, sin analytics, sin bases de datos externas
+- Tú controlas el repositorio y puedes hacer backups cuando quieras
 
 ---
 
