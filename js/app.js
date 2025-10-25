@@ -434,7 +434,7 @@ function generateReport() {
             </div>
 
             <div class="report-section">
-                <h4>Producción por Tipo de Cerveza</h4>
+                <h4>Producción por Tipo de Chela</h4>
                 <table>
                     ${generateBeerProductionBreakdown(month, year)}
                 </table>
@@ -461,7 +461,7 @@ function generateExpenseBreakdownRows(breakdown) {
 function generateBeerProductionBreakdown(month = null, year = null) {
     const beerPricing = calculateCostPerBeerByType(month, year);
 
-    let rows = '<thead><tr><th>Cerveza</th><th>Lotes</th><th>Cervezas</th><th>CPC</th><th>Precio Recomendado</th></tr></thead><tbody>';
+    let rows = '<thead><tr><th>Chela</th><th>Lotes</th><th>Chelas</th><th>CPC</th><th>Precio Recomendado</th></tr></thead><tbody>';
 
     if (beerPricing.length === 0) {
         rows += '<tr><td colspan="5" class="text-center">No hay producción registrada</td></tr>';

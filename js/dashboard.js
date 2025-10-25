@@ -22,9 +22,11 @@ const logoWatermarkPlugin = {
         const ctx = chart.ctx;
         const {top, left, width, height} = chart.chartArea;
 
-        // Calculate watermark size (consistent across all charts)
-        // Use 45% of the smaller dimension for balanced visibility
-        const maxSize = Math.min(width, height) * 0.45;
+        // Calculate watermark size
+        // Doughnut charts use 45%, line/bar charts use 50% to match visual impact
+        const isDoughnut = chart.config.type === 'doughnut';
+        const sizeMultiplier = isDoughnut ? 0.45 : 0.50;
+        const maxSize = Math.min(width, height) * sizeMultiplier;
         const imgWidth = maxSize;
         const imgHeight = maxSize;
         const x = left + (width - imgWidth) / 2;
@@ -236,7 +238,7 @@ function updateProductionChart(monthlyData) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Cervezas Producidas',
+                label: 'Chelas Producidas',
                 data: productionData,
                 backgroundColor: '#802A2A',
                 borderColor: '#5a1f1f',
@@ -253,7 +255,7 @@ function updateProductionChart(monthlyData) {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return 'Cervezas: ' + context.parsed.y.toFixed(0);
+                            return 'Chelas: ' + context.parsed.y.toFixed(0);
                         }
                     }
                 }
@@ -291,7 +293,7 @@ function updateCPPTrendChart(monthlyData) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Costo por Cerveza (MXN)',
+                label: 'Costo por Chela (MXN)',
                 data: cppData,
                 borderColor: '#802A2A',
                 backgroundColor: 'rgba(128, 42, 42, 0.1)',

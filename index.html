@@ -48,53 +48,6 @@
         <section id="dashboard" class="section active">
             <h2>Tablero de Control</h2>
 
-            <!-- KPI Cards -->
-            <div class="kpi-grid">
-                <div class="card kpi-card">
-                    <h3>Ingresos Brutos</h3>
-                    <p class="kpi-value" id="kpi-revenue">$0.00 MXN</p>
-                </div>
-                <div class="card kpi-card">
-                    <h3>Gastos Totales</h3>
-                    <p class="kpi-value" id="kpi-expenses">$0.00 MXN</p>
-                </div>
-                <div class="card kpi-card">
-                    <h3>Ganancia/Pérdida Neta</h3>
-                    <p class="kpi-value" id="kpi-profit">$0.00 MXN</p>
-                </div>
-                <div class="card kpi-card">
-                    <h3>Cervezas Totales Producidas</h3>
-                    <p class="kpi-value" id="kpi-pints">0</p>
-                </div>
-            </div>
-
-            <!-- Cost Per Beer Highlight -->
-            <div class="card cost-per-beer-card">
-                <h2>Costo Por Cerveza (CPC)</h2>
-                <p class="cost-per-beer-result" id="cost-per-beer">$0.00 MXN</p>
-                <p class="subtitle">Basado en el periodo seleccionado</p>
-            </div>
-
-            <!-- Charts -->
-            <div class="charts-grid">
-                <div class="card chart-card">
-                    <h3>Ingresos vs Gastos Mensuales</h3>
-                    <canvas id="revenueExpensesChart"></canvas>
-                </div>
-                <div class="card chart-card">
-                    <h3>Desglose de Gastos</h3>
-                    <canvas id="expenseBreakdownChart"></canvas>
-                </div>
-                <div class="card chart-card">
-                    <h3>Producción Mensual (Cervezas)</h3>
-                    <canvas id="productionChart"></canvas>
-                </div>
-                <div class="card chart-card">
-                    <h3>Tendencia de Costo por Cerveza</h3>
-                    <canvas id="cppTrendChart"></canvas>
-                </div>
-            </div>
-
             <!-- Period Filter -->
             <div class="card filter-card">
                 <h3>Filtrar Periodo</h3>
@@ -126,6 +79,53 @@
                     <button class="primary" onclick="updateDashboard()">Actualizar</button>
                 </div>
             </div>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="card kpi-card">
+                    <h3>Ingresos Brutos</h3>
+                    <p class="kpi-value" id="kpi-revenue">$0.00 MXN</p>
+                </div>
+                <div class="card kpi-card">
+                    <h3>Gastos Totales</h3>
+                    <p class="kpi-value" id="kpi-expenses">$0.00 MXN</p>
+                </div>
+                <div class="card kpi-card">
+                    <h3>Ganancia/Pérdida Neta</h3>
+                    <p class="kpi-value" id="kpi-profit">$0.00 MXN</p>
+                </div>
+                <div class="card kpi-card">
+                    <h3>Chelas Totales Producidas</h3>
+                    <p class="kpi-value" id="kpi-pints">0</p>
+                </div>
+            </div>
+
+            <!-- Cost Per Beer Highlight -->
+            <div class="card cost-per-beer-card">
+                <h2>Costo Por Chela (CPC)</h2>
+                <p class="cost-per-beer-result" id="cost-per-beer">$0.00 MXN</p>
+                <p class="subtitle">Basado en el periodo seleccionado</p>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="card chart-card">
+                    <h3>Ingresos vs Gastos Mensuales</h3>
+                    <canvas id="revenueExpensesChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h3>Desglose de Gastos</h3>
+                    <canvas id="expenseBreakdownChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h3>Producción Mensual (Chelas)</h3>
+                    <canvas id="productionChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h3>Tendencia de Costo por Chela</h3>
+                    <canvas id="cppTrendChart"></canvas>
+                </div>
+            </div>
         </section>
 
         <!-- Production Section -->
@@ -140,11 +140,11 @@
                         <input type="date" id="prod-date" required>
                     </div>
                     <div class="form-group">
-                        <label for="prod-beer-name">Nombre de la Cerveza:</label>
+                        <label for="prod-beer-name">Nombre de la Chela:</label>
                         <input type="text" id="prod-beer-name" required>
                     </div>
                     <div class="form-group">
-                        <label for="prod-volume">Volumen Producido (cervezas):</label>
+                        <label for="prod-volume">Volumen Producido (chelas):</label>
                         <input type="number" id="prod-volume" step="0.1" required>
                     </div>
                     <div class="form-group">
@@ -165,8 +165,8 @@
                     <thead>
                         <tr>
                             <th>Fecha</th>
-                            <th>Cerveza</th>
-                            <th>Cervezas</th>
+                            <th>Chela</th>
+                            <th>Chelas</th>
                             <th>Horas</th>
                             <th>Costo Ingredientes</th>
                             <th>Acciones</th>
@@ -266,7 +266,7 @@
                         <input type="number" id="sales-revenue" step="0.01" required>
                     </div>
                     <div class="form-group">
-                        <label for="sales-volume">Volumen Vendido (cervezas):</label>
+                        <label for="sales-volume">Volumen Vendido (chelas):</label>
                         <input type="number" id="sales-volume" step="0.1" required>
                     </div>
                     <button type="submit" class="primary">Registrar Ventas</button>
@@ -281,7 +281,7 @@
                             <th>Fecha</th>
                             <th>Ingreso Total</th>
                             <th>Volumen Vendido</th>
-                            <th>Precio Promedio/Cerveza</th>
+                            <th>Precio Promedio/Chela</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
