@@ -313,7 +313,7 @@ function formatNumber(number, decimals = 2) {
 function calculateCostPerBeerByType(month = null, year = null) {
     const data = loadData();
     const laborRate = getLaborRate();
-    const profitMarginMultiplier = getProfitMarginMultiplier();
+    const profitMarginPercentage = getProfitMarginPercentage();
 
     // Filter production data
     let production = data.production;
@@ -366,8 +366,8 @@ function calculateCostPerBeerByType(month = null, year = null) {
         // Calculate CPP
         const costPerPint = totalPints > 0 ? totalCost / totalPints : 0;
 
-        // Calculate recommended price (CPP * multiplier)
-        const recommendedPrice = costPerPint * profitMarginMultiplier;
+        // Calculate recommended price (CPP + percentage markup)
+        const recommendedPrice = costPerPint * (1 + profitMarginPercentage / 100);
 
         results.push({
             beerName: beerName,
@@ -376,7 +376,7 @@ function calculateCostPerBeerByType(month = null, year = null) {
             totalCost: totalCost,
             costPerPint: costPerPint,
             recommendedPrice: recommendedPrice,
-            profitMargin: profitMarginMultiplier
+            profitMargin: profitMarginPercentage
         });
     }
 

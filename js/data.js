@@ -19,7 +19,7 @@ const DEFAULT_DATA = {
 
 const DEFAULT_CONFIG = {
     laborRate: 150, // MXN per hour
-    profitMarginMultiplier: 3, // 3x markup
+    profitMarginPercentage: 30, // 30% markup
     version: '1.0'
 };
 
@@ -322,14 +322,14 @@ async function setLaborRate(rate) {
     await saveConfig(config);
 }
 
-function getProfitMarginMultiplier() {
+function getProfitMarginPercentage() {
     const config = loadConfig();
-    return config.profitMarginMultiplier || 3;
+    return config.profitMarginPercentage || 30;
 }
 
-async function setProfitMarginMultiplier(multiplier) {
+async function setProfitMarginPercentage(percentage) {
     const config = loadConfig();
-    config.profitMarginMultiplier = parseFloat(multiplier);
+    config.profitMarginPercentage = parseFloat(percentage);
     await saveConfig(config);
 }
 

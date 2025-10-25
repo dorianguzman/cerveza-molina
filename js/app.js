@@ -535,7 +535,7 @@ function initializeConfigForm() {
             // Update config
             await updateConfig({
                 laborRate: configData.laborRate,
-                profitMarginMultiplier: margin
+                profitMarginPercentage: margin
             });
 
             // Refresh displays
@@ -573,11 +573,11 @@ function loadConfigValues() {
 
     // Populate form inputs
     document.getElementById('config-labor-rate').value = config.laborRate || 150;
-    document.getElementById('config-margin').value = config.profitMarginMultiplier || 3;
+    document.getElementById('config-margin').value = config.profitMarginPercentage || 30;
 
     // Update read-only view
     document.getElementById('view-labor-rate').textContent = formatCurrency(config.laborRate || 150) + '/hora';
-    document.getElementById('view-margin').textContent = (config.profitMarginMultiplier || 3).toFixed(1) + 'x';
+    document.getElementById('view-margin').textContent = (config.profitMarginPercentage || 30) + '%';
 }
 
 // ====================
@@ -843,11 +843,11 @@ function generateBeerProductionBreakdown(month = null, year = null) {
         });
 
         // Add note about profit margin
-        const margin = getProfitMarginMultiplier();
+        const margin = getProfitMarginPercentage();
         rows += `
             <tr>
                 <td colspan="5" style="text-align: center; font-size: 0.9em; color: #666; padding-top: 1rem;">
-                    <em>Precio Recomendado = CPC × ${margin}x (margen de ganancia configurable)</em>
+                    <em>Precio Recomendado = CPC + ${margin}% de margen (margen de ganancia configurable)</em>
                 </td>
             </tr>
         `;

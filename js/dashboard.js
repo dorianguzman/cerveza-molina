@@ -76,10 +76,10 @@ function updateKPIs(month = null, year = null) {
     document.getElementById('cost-per-beer').textContent = formatCurrency(cpp.costPerBeer);
 
     // Update Suggested Price
-    const profitMarginMultiplier = getProfitMarginMultiplier();
-    const suggestedPrice = cpp.costPerBeer * profitMarginMultiplier;
+    const profitMarginPercentage = getProfitMarginPercentage();
+    const suggestedPrice = cpp.costPerBeer * (1 + profitMarginPercentage / 100);
     document.getElementById('suggested-price').textContent = formatCurrency(suggestedPrice);
-    document.getElementById('profit-margin-label').textContent = `Con margen de ${profitMarginMultiplier}x`;
+    document.getElementById('profit-margin-label').textContent = `Con margen de ${profitMarginPercentage}%`;
 }
 
 /**

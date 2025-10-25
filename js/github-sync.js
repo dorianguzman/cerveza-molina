@@ -74,7 +74,7 @@ async function loadFileFromGitHub(path) {
         if (!response.ok) {
             if (response.status === 404) {
                 // File doesn't exist yet, return empty data
-                return path.includes('config') ? { laborRate: 150, profitMarginMultiplier: 3, version: '1.0' } : [];
+                return path.includes('config') ? { laborRate: 150, profitMarginPercentage: 30, version: '1.0' } : [];
             }
             throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
         }
