@@ -218,14 +218,17 @@ main {
     padding: 2rem 0;
 }
 
-/* Menu Cards (Home Screen) */
-.menu-grid {
+/* Common Grid Styles - Applied to both menu and submenu */
+.menu-grid,
+.submenu-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
     margin-top: 2rem;
+    width: 100%;
 }
 
+/* Menu Cards (Home Screen) */
 .menu-card {
     background: white;
     border-radius: 12px;
@@ -291,13 +294,6 @@ main {
 }
 
 /* Submenu Cards - Same size as Menu Cards */
-.submenu-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
 .submenu-card {
     background: white;
     border-radius: 12px;
