@@ -32,13 +32,33 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="container">
-            <button class="nav-btn active" data-section="dashboard">Tablero</button>
-            <button class="nav-btn" data-section="production">Producción</button>
-            <button class="nav-btn" data-section="transactions">Transacciones</button>
-            <button class="nav-btn" data-section="sales">Ventas</button>
-            <button class="nav-btn" data-section="reports">Reportes</button>
-            <button class="nav-btn" data-section="data">Datos</button>
-            <button class="nav-btn" data-section="config">Ajustes</button>
+            <!-- Reportes Group -->
+            <div class="nav-group">
+                <button class="nav-group-btn">Reportes ▾</button>
+                <div class="nav-dropdown">
+                    <button class="nav-btn active" data-section="dashboard">Tablero</button>
+                    <button class="nav-btn" data-section="reports">Estado PyG</button>
+                </div>
+            </div>
+
+            <!-- Ingresar Registros Group -->
+            <div class="nav-group">
+                <button class="nav-group-btn">Ingresar Registros ▾</button>
+                <div class="nav-dropdown">
+                    <button class="nav-btn" data-section="production">Producción</button>
+                    <button class="nav-btn" data-section="transactions">Transacciones</button>
+                    <button class="nav-btn" data-section="sales">Ventas</button>
+                </div>
+            </div>
+
+            <!-- Ajustes Group -->
+            <div class="nav-group">
+                <button class="nav-group-btn">Ajustes ▾</button>
+                <div class="nav-dropdown">
+                    <button class="nav-btn" data-section="data">Datos</button>
+                    <button class="nav-btn" data-section="config">Parámetros</button>
+                </div>
+            </div>
         </div>
     </nav>
 
