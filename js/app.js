@@ -191,63 +191,14 @@ function showConfirmDialog(options) {
 function initializeNavigation() {
     // Initialize submenu card clicks
     const submenuCards = document.querySelectorAll('.submenu-card');
+    console.log(`📋 Found ${submenuCards.length} menu cards`);
 
     submenuCards.forEach(card => {
         card.addEventListener('click', function() {
             const targetSection = this.getAttribute('data-section');
+            console.log(`🖱️ Card clicked: ${targetSection}`);
             showSection(targetSection);
         });
-    });
-
-    // Initialize nav dropdown buttons
-    const navButtons = document.querySelectorAll('.nav-btn');
-
-    navButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const targetSection = this.getAttribute('data-section');
-
-            // Remove active class from all nav buttons
-            navButtons.forEach(b => b.classList.remove('active'));
-
-            // Add active class to clicked button
-            this.classList.add('active');
-
-            // Show the target section
-            showSection(targetSection);
-        });
-    });
-
-    // Initialize nav group dropdowns
-    const navGroups = document.querySelectorAll('.nav-group');
-
-    navGroups.forEach(group => {
-        const groupBtn = group.querySelector('.nav-group-btn');
-        const dropdown = group.querySelector('.nav-dropdown');
-
-        if (groupBtn && dropdown) {
-            groupBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-
-                // Close other dropdowns
-                navGroups.forEach(g => {
-                    if (g !== group) {
-                        g.querySelector('.nav-dropdown')?.classList.remove('show');
-                    }
-                });
-
-                // Toggle this dropdown
-                dropdown.classList.toggle('show');
-            });
-        }
-    });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.nav-group')) {
-            document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
-                dropdown.classList.remove('show');
-            });
-        }
     });
 }
 
@@ -935,29 +886,37 @@ function escapeHtml(text) {
 async function initializeApp() {
     console.log('🚀 Initializing Molina App...');
 
-    // Initialize status tracking
+    // Initialize status tracking FIRST
     initializeStatusTracking();
+    console.log('✅ Status tracking initialized');
 
-    // Load data from GitHub FIRST (before anything else)
-    await initializeDataOnLoad();
-
-    // Initialize all modules
+    // Initialize navigation early so cards work immediately
     initializeNavigation();
+    console.log('✅ Navigation initialized');
+
+    // Load data from GitHub
+    await initializeDataOnLoad();
+    console.log('✅ Data loaded from GitHub');
+
+    // Initialize all form modules
     initializeProductionForm();
     initializeTransactionForm();
     initializeSalesForm();
     initializeConfigForm();
+    console.log('✅ Forms initialized');
 
     // Render initial tables
     renderProductionTable();
     renderTransactionTable();
     renderSalesTable();
+    console.log('✅ Tables rendered');
 
     // Initialize dashboard
     initializeYearFilters();
     updateDashboard();
+    console.log('✅ Dashboard updated');
 
-    console.log('✅ Molina App initialized successfully');
+    console.log('🎉 Molina App fully initialized and ready!');
 }
 
 // DOM Content Loaded is handled by auth.js
