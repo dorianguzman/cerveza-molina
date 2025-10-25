@@ -94,9 +94,9 @@ async function saveData(data) {
     try {
         if (typeof setSyncing === 'function') setSyncing();
         showToast('💾 Guardando en la Base de Datos...', 'info');
-        await saveFileToGitHub(DATA_FILES.production, data.production, 'Update production data');
-        await saveFileToGitHub(DATA_FILES.transactions, data.transactions, 'Update transactions data');
-        await saveFileToGitHub(DATA_FILES.sales, data.sales, 'Update sales data');
+        await saveFileToGitHub(DATA_FILES.production, data.production, 'Update production data [skip ci]');
+        await saveFileToGitHub(DATA_FILES.transactions, data.transactions, 'Update transactions data [skip ci]');
+        await saveFileToGitHub(DATA_FILES.sales, data.sales, 'Update sales data [skip ci]');
         dataCache = data;
         console.log('✅ Data saved to GitHub');
         if (typeof setSyncComplete === 'function') setSyncComplete();
@@ -115,7 +115,7 @@ async function saveData(data) {
 async function saveConfig(config) {
     try {
         if (typeof setSyncing === 'function') setSyncing();
-        await saveFileToGitHub(DATA_FILES.config, config, 'Update config');
+        await saveFileToGitHub(DATA_FILES.config, config, 'Update config [skip ci]');
         configCache = config;
         if (typeof setSyncComplete === 'function') setSyncComplete();
         console.log('✅ Config saved to GitHub');
@@ -477,25 +477,25 @@ async function ensureDataFilesExist() {
 
         if (!githubData.production || githubData.production.length === 0) {
             console.log('📝 Initializing production data...');
-            await saveFileToGitHub(DATA_FILES.production, [], 'Initialize production data');
+            await saveFileToGitHub(DATA_FILES.production, [], 'Initialize production data [skip ci]');
             needsInitialization = true;
         }
 
         if (!githubData.transactions || githubData.transactions.length === 0) {
             console.log('📝 Initializing transactions data...');
-            await saveFileToGitHub(DATA_FILES.transactions, [], 'Initialize transactions data');
+            await saveFileToGitHub(DATA_FILES.transactions, [], 'Initialize transactions data [skip ci]');
             needsInitialization = true;
         }
 
         if (!githubData.sales || githubData.sales.length === 0) {
             console.log('📝 Initializing sales data...');
-            await saveFileToGitHub(DATA_FILES.sales, [], 'Initialize sales data');
+            await saveFileToGitHub(DATA_FILES.sales, [], 'Initialize sales data [skip ci]');
             needsInitialization = true;
         }
 
         if (!githubData.config || !githubData.config.laborRate) {
             console.log('📝 Initializing config...');
-            await saveFileToGitHub(DATA_FILES.config, DEFAULT_CONFIG, 'Initialize config');
+            await saveFileToGitHub(DATA_FILES.config, DEFAULT_CONFIG, 'Initialize config [skip ci]');
             needsInitialization = true;
         }
 
@@ -513,10 +513,10 @@ async function ensureDataFilesExist() {
         if (error.message && error.message.includes('404')) {
             console.log('📁 Creating initial data structure in GitHub...');
             try {
-                await saveFileToGitHub(DATA_FILES.config, DEFAULT_CONFIG, 'Initial setup: config');
-                await saveFileToGitHub(DATA_FILES.production, [], 'Initial setup: production');
-                await saveFileToGitHub(DATA_FILES.transactions, [], 'Initial setup: transactions');
-                await saveFileToGitHub(DATA_FILES.sales, [], 'Initial setup: sales');
+                await saveFileToGitHub(DATA_FILES.config, DEFAULT_CONFIG, 'Initial setup: config [skip ci]');
+                await saveFileToGitHub(DATA_FILES.production, [], 'Initial setup: production [skip ci]');
+                await saveFileToGitHub(DATA_FILES.transactions, [], 'Initial setup: transactions [skip ci]');
+                await saveFileToGitHub(DATA_FILES.sales, [], 'Initial setup: sales [skip ci]');
                 console.log('✅ Initial data structure created in GitHub');
                 return true;
             } catch (initError) {
