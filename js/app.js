@@ -288,12 +288,20 @@ function initializeProductionForm() {
         };
 
         try {
-            await addProduction(productionData);
-            form.reset();
+            if (editingProductionId) {
+                // Update existing record
+                await updateProduction(editingProductionId, productionData);
+                showToast('Registro de producción actualizado');
+                cancelProductionEdit();
+            } else {
+                // Create new record
+                await addProduction(productionData);
+                form.reset();
+            }
             renderProductionTable();
             updateDashboard();
         } catch (error) {
-            console.error('Error adding production:', error);
+            console.error('Error saving production:', error);
         }
     });
 
@@ -321,11 +329,43 @@ function renderProductionTable() {
             <td>${formatNumber(batch.laborHours, 1)}</td>
             <td>${formatCurrency(batch.ingredientCost)}</td>
             <td>
+                <button onclick="editProductionBatch('${batch.id}')">Editar</button>
                 <button onclick="deleteProductionBatch('${batch.id}')">Eliminar</button>
             </td>
         `;
         tbody.appendChild(row);
     });
+}
+
+let editingProductionId = null;
+
+function editProductionBatch(id) {
+    const batch = getProduction(id);
+    if (!batch) return;
+
+    // Populate form with existing data
+    document.getElementById('prod-date').value = batch.date;
+    document.getElementById('prod-beer-name').value = batch.beerName;
+    document.getElementById('prod-volume').value = batch.volume;
+    document.getElementById('prod-hours').value = batch.laborHours;
+    document.getElementById('prod-ingredients').value = batch.ingredientCost;
+
+    // Store the ID being edited
+    editingProductionId = id;
+
+    // Change button text
+    const submitBtn = document.querySelector('#production-form button[type="submit"]');
+    submitBtn.textContent = 'Actualizar Lote';
+
+    // Scroll to form
+    document.getElementById('production').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function cancelProductionEdit() {
+    editingProductionId = null;
+    document.getElementById('production-form').reset();
+    const submitBtn = document.querySelector('#production-form button[type="submit"]');
+    submitBtn.textContent = 'Registrar Lote';
 }
 
 async function deleteProductionBatch(id) {
@@ -368,12 +408,20 @@ function initializeTransactionForm() {
         };
 
         try {
-            await addTransaction(transactionData);
-            form.reset();
+            if (editingTransactionId) {
+                // Update existing record
+                await updateTransaction(editingTransactionId, transactionData);
+                showToast('Transacción actualizada');
+                cancelTransactionEdit();
+            } else {
+                // Create new record
+                await addTransaction(transactionData);
+                form.reset();
+            }
             renderTransactionTable();
             updateDashboard();
         } catch (error) {
-            console.error('Error adding transaction:', error);
+            console.error('Error saving transaction:', error);
         }
     });
 
@@ -405,11 +453,43 @@ function renderTransactionTable() {
             <td>${getCategoryDisplayName(trx.category)}</td>
             <td class="${typeClass}">${amountDisplay}</td>
             <td>
+                <button onclick="editTransactionRecord('${trx.id}')">Editar</button>
                 <button onclick="deleteTransactionRecord('${trx.id}')">Eliminar</button>
             </td>
         `;
         tbody.appendChild(row);
     });
+}
+
+let editingTransactionId = null;
+
+function editTransactionRecord(id) {
+    const trx = getTransaction(id);
+    if (!trx) return;
+
+    // Populate form with existing data
+    document.getElementById('trx-date').value = trx.date;
+    document.getElementById('trx-description').value = trx.description;
+    document.getElementById('trx-amount').value = trx.amount;
+    document.getElementById('trx-type').value = trx.type;
+    document.getElementById('trx-category').value = trx.category;
+
+    // Store the ID being edited
+    editingTransactionId = id;
+
+    // Change button text
+    const submitBtn = document.querySelector('#transaction-form button[type="submit"]');
+    submitBtn.textContent = 'Actualizar Transacción';
+
+    // Scroll to form
+    document.getElementById('transactions').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function cancelTransactionEdit() {
+    editingTransactionId = null;
+    document.getElementById('transaction-form').reset();
+    const submitBtn = document.querySelector('#transaction-form button[type="submit"]');
+    submitBtn.textContent = 'Registrar Transacción';
 }
 
 async function deleteTransactionRecord(id) {
@@ -450,12 +530,20 @@ function initializeSalesForm() {
         };
 
         try {
-            await addSales(salesData);
-            form.reset();
+            if (editingSalesId) {
+                // Update existing record
+                await updateSales(editingSalesId, salesData);
+                showToast('Registro de ventas actualizado');
+                cancelSalesEdit();
+            } else {
+                // Create new record
+                await addSales(salesData);
+                form.reset();
+            }
             renderSalesTable();
             updateDashboard();
         } catch (error) {
-            console.error('Error adding sales:', error);
+            console.error('Error saving sales:', error);
         }
     });
 
@@ -484,11 +572,41 @@ function renderSalesTable() {
             <td>${formatNumber(sale.volumeSold, 1)}</td>
             <td>${formatCurrency(avgPrice)}</td>
             <td>
+                <button onclick="editSalesRecord('${sale.id}')">Editar</button>
                 <button onclick="deleteSalesRecord('${sale.id}')">Eliminar</button>
             </td>
         `;
         tbody.appendChild(row);
     });
+}
+
+let editingSalesId = null;
+
+function editSalesRecord(id) {
+    const sale = getSales(id);
+    if (!sale) return;
+
+    // Populate form with existing data
+    document.getElementById('sales-date').value = sale.date;
+    document.getElementById('sales-revenue').value = sale.revenue;
+    document.getElementById('sales-volume').value = sale.volumeSold;
+
+    // Store the ID being edited
+    editingSalesId = id;
+
+    // Change button text
+    const submitBtn = document.querySelector('#sales-form button[type="submit"]');
+    submitBtn.textContent = 'Actualizar Ventas';
+
+    // Scroll to form
+    document.getElementById('sales').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function cancelSalesEdit() {
+    editingSalesId = null;
+    document.getElementById('sales-form').reset();
+    const submitBtn = document.querySelector('#sales-form button[type="submit"]');
+    submitBtn.textContent = 'Registrar Ventas';
 }
 
 async function deleteSalesRecord(id) {
