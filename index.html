@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molina - Cerveza Artesanal</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="assets/small_logo.jpg">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <img src="assets/logo-molina.png" alt="Molina Cerveza Artesanal" class="logo-img">
+            <div>
+                <h1 class="logo">Molina - Cerveza Artesanal</h1>
+                <p class="subtitle">Registro de Cervecería</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <button class="nav-btn active" data-section="dashboard">Tablero</button>
+            <button class="nav-btn" data-section="production">Producción</button>
+            <button class="nav-btn" data-section="transactions">Transacciones</button>
+            <button class="nav-btn" data-section="sales">Ventas</button>
+            <button class="nav-btn" data-section="reports">Reportes</button>
+            <button class="nav-btn" data-section="data">Datos</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <h2>Tablero de Control</h2>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="card kpi-card">
+                    <h3>Ingresos Brutos</h3>
+                    <p class="kpi-value" id="kpi-revenue">$0.00 MXN</p>
+                </div>
+                <div class="card kpi-card">
+                    <h3>Gastos Totales</h3>
+                    <p class="kpi-value" id="kpi-expenses">$0.00 MXN</p>
+                </div>
+                <div class="card kpi-card">
+                    <h3>Ganancia/Pérdida Neta</h3>
+                    <p class="kpi-value" id="kpi-profit">$0.00 MXN</p>
+                </div>
+                <div class="card kpi-card">
+                    <h3>Cervezas Totales Producidas</h3>
+                    <p class="kpi-value" id="kpi-pints">0</p>
+                </div>
+            </div>
+
+            <!-- Cost Per Beer Highlight -->
+            <div class="card cost-per-beer-card">
+                <h2>Costo Por Cerveza (CPC)</h2>
+                <p class="cost-per-beer-result" id="cost-per-beer">$0.00 MXN</p>
+                <p class="subtitle">Basado en el periodo seleccionado</p>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="card chart-card">
+                    <h3>Ingresos vs Gastos Mensuales</h3>
+                    <canvas id="revenueExpensesChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h3>Desglose de Gastos</h3>
+                    <canvas id="expenseBreakdownChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h3>Producción Mensual (Cervezas)</h3>
+                    <canvas id="productionChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h3>Tendencia de Costo por Cerveza</h3>
+                    <canvas id="cppTrendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Period Filter -->
+            <div class="card filter-card">
+                <h3>Filtrar Periodo</h3>
+                <div class="filter-controls">
+                    <label>
+                        Mes:
+                        <select id="filter-month">
+                            <option value="">Todos</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </label>
+                    <label>
+                        Año:
+                        <select id="filter-year">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </label>
+                    <button class="primary" onclick="updateDashboard()">Actualizar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Production Section -->
+        <section id="production" class="section">
+            <h2>Registro de Producción</h2>
+
+            <div class="card form-card">
+                <h3>Nuevo Lote de Producción</h3>
+                <form id="production-form">
+                    <div class="form-group">
+                        <label for="prod-date">Fecha:</label>
+                        <input type="date" id="prod-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-beer-name">Nombre de la Cerveza:</label>
+                        <input type="text" id="prod-beer-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-volume">Volumen Producido (cervezas):</label>
+                        <input type="number" id="prod-volume" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-hours">Horas Laborales:</label>
+                        <input type="number" id="prod-hours" step="0.5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-ingredients">Consumo de Ingredientes (MXN):</label>
+                        <input type="number" id="prod-ingredients" step="0.01" required>
+                    </div>
+                    <button type="submit" class="primary">Registrar Lote</button>
+                </form>
+            </div>
+
+            <div class="card table-card">
+                <h3>Historial de Producción</h3>
+                <table id="production-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Cerveza</th>
+                            <th>Cervezas</th>
+                            <th>Horas</th>
+                            <th>Costo Ingredientes</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="production-tbody">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Transactions Section -->
+        <section id="transactions" class="section">
+            <h2>Registro de Transacciones</h2>
+
+            <div class="card form-card">
+                <h3>Nueva Transacción</h3>
+                <form id="transaction-form">
+                    <div class="form-group">
+                        <label for="trx-date">Fecha:</label>
+                        <input type="date" id="trx-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trx-description">Descripción:</label>
+                        <input type="text" id="trx-description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trx-amount">Monto (MXN):</label>
+                        <input type="number" id="trx-amount" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trx-type">Tipo:</label>
+                        <select id="trx-type" required>
+                            <option value="income">Ingreso</option>
+                            <option value="expense">Gasto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="trx-category">Categoría:</label>
+                        <select id="trx-category" required>
+                            <option value="">Seleccionar...</option>
+                            <!-- Income Categories -->
+                            <optgroup label="Ingresos">
+                                <option value="ventas">Ingreso por Ventas</option>
+                                <option value="otros-ingresos">Otros Ingresos</option>
+                            </optgroup>
+                            <!-- Expense Categories -->
+                            <optgroup label="Gastos">
+                                <option value="ingredientes">Compra de Ingrediente Variable</option>
+                                <option value="renta">Renta</option>
+                                <option value="salario">Salario</option>
+                                <option value="servicios">Servicios (Luz, Agua, etc.)</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="mantenimiento">Mantenimiento</option>
+                                <option value="general">Gasto General</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <button type="submit" class="primary">Registrar Transacción</button>
+                </form>
+            </div>
+
+            <div class="card table-card">
+                <h3>Historial de Transacciones</h3>
+                <table id="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Descripción</th>
+                            <th>Tipo</th>
+                            <th>Categoría</th>
+                            <th>Monto</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transaction-tbody">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sales Section -->
+        <section id="sales" class="section">
+            <h2>Registro de Ventas</h2>
+
+            <div class="card form-card">
+                <h3>Nuevo Registro de Ventas</h3>
+                <form id="sales-form">
+                    <div class="form-group">
+                        <label for="sales-date">Fecha:</label>
+                        <input type="date" id="sales-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sales-revenue">Ingreso Total (MXN):</label>
+                        <input type="number" id="sales-revenue" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sales-volume">Volumen Vendido (cervezas):</label>
+                        <input type="number" id="sales-volume" step="0.1" required>
+                    </div>
+                    <button type="submit" class="primary">Registrar Ventas</button>
+                </form>
+            </div>
+
+            <div class="card table-card">
+                <h3>Historial de Ventas</h3>
+                <table id="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Ingreso Total</th>
+                            <th>Volumen Vendido</th>
+                            <th>Precio Promedio/Cerveza</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-tbody">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="section">
+            <h2>Estado de Pérdidas y Ganancias (PyG)</h2>
+
+            <div class="card filter-card">
+                <h3>Filtrar Reporte</h3>
+                <div class="filter-controls">
+                    <label>
+                        Mes:
+                        <select id="report-month">
+                            <option value="">Todos</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </label>
+                    <label>
+                        Año:
+                        <select id="report-year">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </label>
+                    <button class="primary" onclick="generateReport()">Generar Reporte</button>
+                </div>
+            </div>
+
+            <div class="card report-card">
+                <div id="report-content">
+                    <p class="text-center">Seleccione un periodo y haga clic en "Generar Reporte"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Management Section -->
+        <section id="data" class="section">
+            <h2>Gestión de Datos</h2>
+
+            <div class="card">
+                <h3>Exportar Datos</h3>
+                <p>Descargue todos los datos del registro en formato JSON.</p>
+                <button class="primary" onclick="exportData()">Exportar Datos (JSON)</button>
+            </div>
+
+            <div class="card">
+                <h3>Importar Datos</h3>
+                <p>Cargue datos previamente exportados desde un archivo JSON.</p>
+                <input type="file" id="import-file" accept=".json">
+                <button class="primary" onclick="importData()">Importar Datos (JSON)</button>
+            </div>
+
+            <div class="card">
+                <h3>Borrar Todos los Datos</h3>
+                <p class="warning">⚠️ Esta acción eliminará todos los datos de forma permanente. Asegúrese de exportar sus datos primero.</p>
+                <button class="danger" onclick="clearAllData()">Borrar Todos los Datos</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 Molina Cerveza Artesanal | Registro de Cervecería</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/calculations.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
