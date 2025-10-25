@@ -4,6 +4,92 @@
  */
 
 // ====================
+// STATUS TRACKING
+// ====================
+
+let lastSyncTime = null;
+
+/**
+ * Update online/offline status indicator
+ */
+function updateOnlineStatus() {
+    const onlineStatus = document.getElementById('online-status');
+    const statusText = onlineStatus.querySelector('.status-text');
+
+    if (navigator.onLine) {
+        onlineStatus.classList.remove('offline');
+        statusText.textContent = 'Online';
+    } else {
+        onlineStatus.classList.add('offline');
+        statusText.textContent = 'Offline';
+    }
+}
+
+/**
+ * Update last sync time display
+ */
+function updateLastSyncDisplay() {
+    const syncText = document.getElementById('last-sync-text');
+
+    if (!lastSyncTime) {
+        syncText.textContent = 'No sincronizado';
+        return;
+    }
+
+    const now = new Date();
+    const diff = now - lastSyncTime;
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    if (seconds < 10) {
+        syncText.textContent = 'Justo ahora';
+    } else if (seconds < 60) {
+        syncText.textContent = `Hace ${seconds}s`;
+    } else if (minutes < 60) {
+        syncText.textContent = `Hace ${minutes}m`;
+    } else if (hours < 24) {
+        syncText.textContent = `Hace ${hours}h`;
+    } else {
+        const days = Math.floor(hours / 24);
+        syncText.textContent = `Hace ${days}d`;
+    }
+}
+
+/**
+ * Mark sync as in progress
+ */
+function setSyncing() {
+    const syncStatus = document.getElementById('sync-status');
+    syncStatus.classList.add('syncing');
+}
+
+/**
+ * Mark sync as complete
+ */
+function setSyncComplete() {
+    const syncStatus = document.getElementById('sync-status');
+    syncStatus.classList.remove('syncing');
+    lastSyncTime = new Date();
+    updateLastSyncDisplay();
+}
+
+/**
+ * Initialize status tracking
+ */
+function initializeStatusTracking() {
+    // Update online status
+    updateOnlineStatus();
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    // Update last sync time every 10 seconds
+    setInterval(updateLastSyncDisplay, 10000);
+
+    console.log('✅ Status tracking initialized');
+}
+
+// ====================
 // TOAST NOTIFICATIONS
 // ====================
 
@@ -101,6 +187,57 @@ function initializeNavigation() {
             const targetSection = this.getAttribute('data-section');
             showSection(targetSection);
         });
+    });
+
+    // Initialize nav dropdown buttons
+    const navButtons = document.querySelectorAll('.nav-btn');
+
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetSection = this.getAttribute('data-section');
+
+            // Remove active class from all nav buttons
+            navButtons.forEach(b => b.classList.remove('active'));
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Show the target section
+            showSection(targetSection);
+        });
+    });
+
+    // Initialize nav group dropdowns
+    const navGroups = document.querySelectorAll('.nav-group');
+
+    navGroups.forEach(group => {
+        const groupBtn = group.querySelector('.nav-group-btn');
+        const dropdown = group.querySelector('.nav-dropdown');
+
+        if (groupBtn && dropdown) {
+            groupBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+
+                // Close other dropdowns
+                navGroups.forEach(g => {
+                    if (g !== group) {
+                        g.querySelector('.nav-dropdown')?.classList.remove('show');
+                    }
+                });
+
+                // Toggle this dropdown
+                dropdown.classList.toggle('show');
+            });
+        }
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-group')) {
+            document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        }
     });
 }
 
@@ -776,6 +913,9 @@ function escapeHtml(text) {
  */
 async function initializeApp() {
     console.log('🚀 Initializing Molina App...');
+
+    // Initialize status tracking
+    initializeStatusTracking();
 
     // Load data from GitHub FIRST (before anything else)
     await initializeDataOnLoad();
