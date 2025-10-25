@@ -37,8 +37,8 @@
             <button class="nav-btn" data-section="transactions">Transacciones</button>
             <button class="nav-btn" data-section="sales">Ventas</button>
             <button class="nav-btn" data-section="reports">Reportes</button>
-            <button class="nav-btn" data-section="config">Configuración</button>
             <button class="nav-btn" data-section="data">Datos</button>
+            <button class="nav-btn" data-section="config">Ajustes</button>
         </div>
     </nav>
 
@@ -335,9 +335,33 @@
             </div>
         </section>
 
-        <!-- Configuration Section -->
+        <!-- Data Management Section -->
+        <section id="data" class="section">
+            <h2>Gestión de Datos</h2>
+
+            <div class="card">
+                <h3>Exportar Datos</h3>
+                <p>Descargue todos los datos del registro en formato JSON.</p>
+                <button class="primary" onclick="exportData()">Exportar Datos (JSON)</button>
+            </div>
+
+            <div class="card">
+                <h3>Importar Datos</h3>
+                <p>Cargue datos previamente exportados desde un archivo JSON.</p>
+                <input type="file" id="import-file" accept=".json">
+                <button class="primary" onclick="importData()">Importar Datos (JSON)</button>
+            </div>
+
+            <div class="card">
+                <h3>Borrar Todos los Datos</h3>
+                <p class="warning">⚠️ Esta acción eliminará todos los datos de forma permanente. Asegúrese de exportar sus datos primero.</p>
+                <button class="danger" onclick="clearAllData()">Borrar Todos los Datos</button>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
         <section id="config" class="section">
-            <h2>⚙️ Configuración de Parámetros</h2>
+            <h2>Ajustes</h2>
 
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -377,30 +401,6 @@
                         <button type="button" class="secondary" onclick="toggleConfigEdit()">Cancelar</button>
                     </div>
                 </form>
-            </div>
-        </section>
-
-        <!-- Data Management Section -->
-        <section id="data" class="section">
-            <h2>Gestión de Datos</h2>
-
-            <div class="card">
-                <h3>Exportar Datos</h3>
-                <p>Descargue todos los datos del registro en formato JSON.</p>
-                <button class="primary" onclick="exportData()">Exportar Datos (JSON)</button>
-            </div>
-
-            <div class="card">
-                <h3>Importar Datos</h3>
-                <p>Cargue datos previamente exportados desde un archivo JSON.</p>
-                <input type="file" id="import-file" accept=".json">
-                <button class="primary" onclick="importData()">Importar Datos (JSON)</button>
-            </div>
-
-            <div class="card">
-                <h3>Borrar Todos los Datos</h3>
-                <p class="warning">⚠️ Esta acción eliminará todos los datos de forma permanente. Asegúrese de exportar sus datos primero.</p>
-                <button class="danger" onclick="clearAllData()">Borrar Todos los Datos</button>
             </div>
         </section>
 
