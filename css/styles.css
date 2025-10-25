@@ -223,12 +223,7 @@ main {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    margin: 2rem auto 0;
-    width: calc(100% + 4rem);
-    max-width: 800px;
-    margin-left: -2rem;
-    margin-right: -2rem;
-    padding: 0 2rem;
+    margin-top: 2rem;
 }
 
 .menu-card {
@@ -300,12 +295,7 @@ main {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    margin: 2rem auto 0;
-    width: calc(100% + 4rem);
-    max-width: 800px;
-    margin-left: -2rem;
-    margin-right: -2rem;
-    padding: 0 2rem;
+    margin-top: 2rem;
 }
 
 .submenu-card {
