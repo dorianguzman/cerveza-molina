@@ -531,10 +531,7 @@ async function ensureDataFilesExist() {
 
 // Initialize on load (called by app.js after authentication)
 async function initializeDataOnLoad() {
-    // First ensure data files exist in GitHub
-    await ensureDataFilesExist();
-
-    // Then load the data
+    // Load the data from GitHub
     await initializeData();
     await initializeConfig();
 }
